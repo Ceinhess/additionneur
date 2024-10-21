@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="DevisMakerApp.UserControls.Game.Stats"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DevisMakerApp.UserControls.Game"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <Grid Background="#FFFFFFFB">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="Prenom" Grid.Column="1" Margin="0,0,33,142" Grid.Row="1" TextWrapping="Wrap" Text="{Binding UserName}" VerticalAlignment="Bottom" FontSize="24" FontFamily="Cascadia Code" HorizontalAlignment="Right" Width="127"/>
+        <TextBlock x:Name="Nom" Grid.Column="2" HorizontalAlignment="Left" Margin="33,0,0,142" Grid.Row="1" TextWrapping="Wrap" Text="{Binding UserSurname}" FontSize="24" FontFamily="Cascadia Code" Height="28" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgEasy}" FontSize="24" FontFamily="Cascadia Code" Margin="319,36,0,0" HorizontalAlignment="Left" Width="127" Grid.ColumnSpan="2" Height="28" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="1" Margin="256,36,257,116" Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgNormal}" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="182,36,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgHard}" FontSize="24" FontFamily="Cascadia Code" Height="28" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="1" Margin="256,140,257,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgTotal}" VerticalAlignment="Top" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
+        <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Easy" FontSize="24" FontFamily="Cascadia Code" Margin="0,8,194,0" HorizontalAlignment="Right" Width="127" Grid.ColumnSpan="2" Height="28" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="252,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Hard" FontSize="24" FontFamily="Cascadia Code" FlowDirection="RightToLeft" Height="28" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="1" Margin="282,112,284,0" Grid.Row="2" TextWrapping="Wrap" Text="Total" VerticalAlignment="Top" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
+        <TextBlock Grid.Column="1" Margin="277,8,278,144" Grid.Row="2" TextWrapping="Wrap" Text="Normal" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
+        <TextBlock Grid.Column="1" Margin="212,90,213,62" Grid.Row="1" TextWrapping="Wrap" Text="Average Scores:" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
+        <Button Command="{Binding GoToGameMenu}" Content="Back" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="36"/>
+    </Grid>
+</UserControl>
