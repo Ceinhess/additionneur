@@ -284,6 +284,8 @@ namespace DevisMakerApp.ViewModels
             CurrentRound = 0;
             Score = 0;
 
+            
+
             StatsVisibility = Visibility.Collapsed;
             EndVisibility = Visibility.Collapsed;
             GameVisibility = Visibility.Collapsed;
@@ -404,40 +406,46 @@ namespace DevisMakerApp.ViewModels
             int nbNormal = 0;
             int nbHard = 0;
 
+            Trace.WriteLine(rows);
 
             foreach (var row in rows)
             {
-                switch(row["difficulty"])
+                Trace.WriteLine(row["correct_answers"].GetType());
+                Trace.WriteLine(row["max_answers"].GetType());
+
+                //Trace.WriteLine("cor1"+row["correct_answers"]);
+                switch (Convert.ToInt32(row["difficulty"]))
                 {
-                    case "0":
+                    case 0:
                         nbEasy++;
-                        avgEasy +=  ((float) row["correct_answers"] / (float) row["max_answers"]);
-                        Trace.WriteLine(avgEasy);
+                        avgEasy +=   (float)(int)row["correct_answers"] / (int) row["max_answers"];
+                        Trace.WriteLine(row["correct_answers"]);
                         break;
-                    case "1":
+
+                    case 1:
                         nbNormal++;
-                        avgNormal += ((float)row["correct_answers"] / (float)row["max_answers"]);
+                        avgNormal += (float)(int)row["correct_answers"] / (int)row["max_answers"];
+                        Trace.WriteLine("avgnormal: " + avgEasy);
                         break;
-                    case "2":
+
+                    case 2:
                         nbHard++;
-                        avgHard += ((float)row["correct_answers"] / (float)row["max_answers"]);
+                        avgHard += (float)(int)row["correct_answers"] / (int)row["max_answers"];
                         break;
                 }
             }
 
-            UserAvgEasy = avgEasy / nbEasy;
-            UserAvgNormal = avgNormal / nbNormal;
-            UserAvgHard = avgHard / nbHard;
+            UserAvgEasy = nbEasy != 0 ? avgEasy / nbEasy : 0f;
+            UserAvgNormal = nbNormal != 0 ? avgNormal / nbNormal : 0f;
+            UserAvgHard = nbHard != 0 ? avgHard / nbHard : 0f;
 
-            UserAvgTotal = (UserAvgEasy + UserAvgNormal + UserAvgHard) / 3;
+            UserAvgTotal = (UserAvgEasy * nbEasy + UserAvgNormal * nbNormal + UserAvgHard * nbHard) / ( nbEasy + nbNormal + nbHard);
 
             UserName = MainVM.User.Name;
-            UserSurname = MainVM.User.Surname;
+            UserSurname = UserSurname != "." ? MainVM.User.Surname : "";
             
             MenuVisibility = Visibility.Collapsed;
             StatsVisibility = Visibility.Visible;
-
-
             
         }
 

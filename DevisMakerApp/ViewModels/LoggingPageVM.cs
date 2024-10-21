@@ -203,7 +203,12 @@ namespace DevisMakerApp.ViewModels
             LoginMenuVisibility = Visibility.Collapsed;
             RegisterMenuVisibility = Visibility.Collapsed;
 
+            
+
             Clear();
+
+            LogMail = "maximegonc@gmail.com";
+            LogPassword = "MdpTest";
 
         }
 
