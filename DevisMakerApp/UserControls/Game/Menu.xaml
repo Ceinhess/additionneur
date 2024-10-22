@@ -23,21 +23,32 @@
             <TextBlock TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="Bold" FontSize="36" FontFamily="Lucida Console" IsHitTestVisible="False" Margin="0,0,0,50"><Run Language="fr-fr" Text="COMPETITIVE CALCULATOR"/></TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="PanelDifficulty">
                     <Label Content="Difficulty" FlowDirection="RightToLeft" FontSize="16" FontFamily="Cascadia Code" Width="136" Height="28"/>
-                    <ListBox SelectedIndex="{Binding Difficulty}" Background="#FFFBFFFE" Width="137" Height="75">
+                    <ListBox SelectedIndex="{Binding Difficulty}" Background="#FFFBFFFE">
                         <TextBlock Text="Easy" FontFamily="Cascadia Code" FontSize="16"/>
                         <TextBlock Text="Normal" FontFamily="Cascadia Code" FontSize="16"/>
                         <TextBlock Text="Hard" FontFamily="Cascadia Code" FontSize="16"/>
                     </ListBox>
                 </StackPanel>
-                <StackPanel x:Name="PanelRounds" Grid.Column="2">
+                <StackPanel x:Name="PanelGameType" Grid.Column="2">
+                    <Label Content="Type" FontSize="16" FontFamily="Cascadia Code" HorizontalAlignment="Center"/>
+                    <ListBox SelectedIndex="{Binding GameTypeIndex}" Background="#FFFBFFFE">
+                        <TextBlock Text="Sums" FontFamily="Cascadia Code" FontSize="16"/>
+                        <TextBlock Text="Differences" FontFamily="Cascadia Code" FontSize="16"/>
+                        <TextBlock Text="Multiplications" FontFamily="Cascadia Code" FontSize="16"/>
+                        <TextBlock Text="Divisions" FontFamily="Cascadia Code" FontSize="16"/>
+                    </ListBox>
+                </StackPanel>
+                <StackPanel x:Name="PanelRounds" Grid.Column="4">
                     <Label Content="Rounds" FontSize="16" FontFamily="Cascadia Code" Width="138" Height="28"/>
-                    <ListBox SelectedIndex="{Binding MaxRoundsIndex}" Background="#FFFBFFFE" Width="135" Height="127">
+                    <ListBox SelectedIndex="{Binding MaxRoundsIndex}" Background="#FFFBFFFE">
                         <TextBlock Text="10" FontFamily="Cascadia Code" FontSize="16"/>
                         <TextBlock Text="15" FontFamily="Cascadia Code" FontSize="16"/>
                         <TextBlock Text="20" FontFamily="Cascadia Code" FontSize="16"/>

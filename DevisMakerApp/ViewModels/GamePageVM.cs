@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
+
 namespace Additionneur.ViewModels
 {
     class GamePageVM : BaseViewModel
@@ -25,7 +26,23 @@ namespace Additionneur.ViewModels
         private bool isEndVisible;
         private bool isStatsVisible;
 
+        private int gameTypeIndex;
 
+        /// <summary>
+        /// 0 = Sums, 1 = Differences, 2 = Multiplications, 3 = Divisions.
+        /// </summary>
+        public int GameTypeIndex
+        {
+            get { return gameTypeIndex; }
+            set
+            {
+                gameTypeIndex = value;
+                OnPropertyChanged("GameTypeIndex");
+            }
+        }
+        /// <summary>
+        /// 0 = easy, 1 = normal, 2 = hard
+        /// </summary>
         public int Difficulty
         {
             get { return difficulty; }
@@ -35,6 +52,10 @@ namespace Additionneur.ViewModels
                 OnPropertyChanged("Difficulty");
             }
         }
+        /// <summary>
+        /// (x + 1) * 5. <br/>
+        /// ex: 1 = 10, 2 = 15, 4 = 25 ...
+        /// </summary>
         public int MaxRoundsIndex
         {
             get { return (maxRounds-10)/5; }
@@ -44,7 +65,7 @@ namespace Additionneur.ViewModels
                 OnPropertyChanged("MaxRoundsIndex");
             }
         }
-        
+
 
         public Visibility MenuVisibility
         {
@@ -91,6 +112,7 @@ namespace Additionneur.ViewModels
         private int score;
         private string scoreText;
         private string roundsText;
+        private string operationText;
 
         private int valueOne;
         private int valueTwo;
@@ -170,6 +192,16 @@ namespace Additionneur.ViewModels
             {
                 roundsText = value;
                 OnPropertyChanged("RoundsText");
+            }
+        }
+
+        public string OperationText
+        {
+            get { return operationText; }
+            set
+            {
+                operationText = value;
+                OnPropertyChanged("OperationText");
             }
         }
 
@@ -280,12 +312,12 @@ namespace Additionneur.ViewModels
             GoToStatsMenu = new RelayCommand(o => goToStatsMenu());
             GoToGameMenu = new RelayCommand(o=> goToGameMenu());
 
+            GameTypeIndex = 0;
             Difficulty = 1;
             MaxRoundsIndex = 1;
             CurrentRound = 0;
             Score = 0;
 
-            
 
             StatsVisibility = Visibility.Collapsed;
             EndVisibility = Visibility.Collapsed;
@@ -302,6 +334,8 @@ namespace Additionneur.ViewModels
 
             CurrentRound = 0;
             Score = 0;
+
+            OperationText = (new[] { "+", "-", "x", "//" })[GameTypeIndex];
 
             newRound();
         }
@@ -332,10 +366,24 @@ namespace Additionneur.ViewModels
 
         private void newRound()
         {
-            //If not the first round, checks the answer of the last one
-            if (currentRound != 0 && ValueOne + ValueTwo == Result)
+            //If not the first round, checks the answer of the last one depending on the game type
+            if (currentRound != 0)
             {
-                Score++;
+                switch(GameTypeIndex)
+                {
+                    case 0: // sum
+                        if (ValueOne + ValueTwo == Result) Score++;
+                        break;
+                    case 1: // difference
+                        if (ValueOne - ValueTwo == Result) Score++;
+                        break;
+                    case 2: // multiplication
+                        if (ValueOne * ValueTwo == Result) Score++;
+                        break;
+                    case 3: // division
+                        if (ValueOne / ValueTwo == Result) Score++;
+                        break;
+                }
             }
 
             // If last round was THE last round, do not generate a new one
@@ -346,7 +394,7 @@ namespace Additionneur.ViewModels
                 return;
             }
             
-            // Generate round
+            // Updates current round and text + resets fields values
             currentRound++;
 
             ScoreText = $"Score: {Score}/{currentRound-1}";
@@ -358,9 +406,32 @@ namespace Additionneur.ViewModels
 
             IsValueOneLocked = true;
             IsValueTwoLocked = true;
-            isResultLocked = true;
+            IsResultLocked = true;
 
-            int maxValue = (int) Math.Pow(10, 2 + Difficulty);
+            // generates the round
+            switch (GameTypeIndex)
+            {
+                case 0:
+                    makeSumRound();
+                    break;
+                case 1:
+                    makeDifferenceRound();
+                    break;
+                case 2:
+                    makeMultiplicationRound();
+                    break;
+                case 3:
+                    if (ValueOne / ValueTwo == Result) Score++;
+                    break;
+            }
+        }
+
+        private void makeSumRound()
+        {
+            int maxValue = (int)Math.Pow(10, 2 + Difficulty);
+
+            //If difficulty is hard, allow negative values
+            int minValue = Difficulty == 0 ? -maxValue : 0;
 
             toGuess = random.Next(3);
 
@@ -368,27 +439,154 @@ namespace Additionneur.ViewModels
             {
                 case 0: // First Value
                     IsValueOneLocked = false;
-                    ValueTwo = random.Next(maxValue);
-                    Result = ValueTwo + random.Next(maxValue);
+                    ValueTwo = random.Next(minValue, maxValue);
+                    Result = random.Next(minValue, maxValue) + valueTwo;
 
                     break;
 
                 case 1: // Second Value
-                    ValueOne = random.Next(maxValue);
+                    ValueOne = random.Next(minValue, maxValue);
                     IsValueTwoLocked = false;
-                    Result = ValueOne + random.Next(maxValue);
+                    Result = ValueOne + random.Next(minValue, maxValue);
 
                     break;
 
                 case 2: // Result Value
-                    ValueOne = random.Next(maxValue);
-                    ValueTwo = random.Next(maxValue);
+                    ValueOne = random.Next(minValue, maxValue);
+                    ValueTwo = random.Next(minValue, maxValue);
                     IsResultLocked = false;
 
                     break;
 
             }
         }
+
+        
+
+        private void makeDifferenceRound()
+        {
+            int maxValue = (int)Math.Pow(10, 2 + Difficulty) / 2;
+
+            //If difficulty is hard, allow negative values
+            int minValue = Difficulty == 2 ? -maxValue : 0;
+
+            toGuess = random.Next(3);
+
+            switch (toGuess)
+            {
+                case 0: // First Value
+                    IsValueOneLocked = false;
+                    ValueTwo = random.Next(minValue, maxValue);
+                    Result = random.Next(minValue, maxValue) - valueTwo;
+
+                    break;
+
+                case 1: // Second Value
+                    ValueOne = random.Next(minValue, maxValue);
+                    IsValueTwoLocked = false;
+                    Result = ValueOne - random.Next(minValue, maxValue);
+
+                    break;
+
+                case 2: // Result Value
+                    ValueOne = random.Next(minValue, maxValue);
+                    ValueTwo = random.Next(minValue, maxValue);
+                    IsResultLocked = false;
+
+                    break;
+
+            }
+        }
+
+        private void makeMultiplicationRound()
+        {
+            // 10 for easy, 25 for normal, 100 for hard
+            int maxValue = (new[] { 10, 25, 100 })[Difficulty];
+
+            //If difficulty isn't easy, allow negative values
+            int minValue = Difficulty == 0 ? 2 : -maxValue;
+
+            toGuess = random.Next(3);
+
+            switch (toGuess)
+            {
+                case 0: // First Value
+                    IsValueOneLocked = false;
+                    ValueTwo = random.Next(minValue, maxValue);
+                    Result = random.Next(minValue, maxValue) * valueTwo;
+
+                    break;
+
+                case 1: // Second Value
+                    ValueOne = random.Next(minValue, maxValue);
+                    IsValueTwoLocked = false;
+                    Result = ValueOne * random.Next(minValue, maxValue);
+
+                    break;
+
+                case 2: // Result Value
+                    ValueOne = random.Next(minValue, maxValue);
+                    ValueTwo = random.Next(minValue, maxValue);
+                    IsResultLocked = false;
+
+                    break;
+
+            }
+        }
+
+        private void makeDivisionRound()
+        {
+
+            int maxFirstValue = (int)Math.Pow(10, 2 + Difficulty);
+
+            //If difficulty isn't easy, allow negative values
+            int minFirstValue = Difficulty == 0 ? 10 : -maxFirstValue;
+
+            ValueOne = random.Next(minFirstValue, maxFirstValue);
+
+            ValueTwo = random.Next(-(ValueOne / 2), ValueOne / 2);
+
+            IsResultLocked = false;
+
+        }
+
+        //private int generateValue()
+        //{
+        //    switch (GameTypeIndex)
+        //    {
+        //        case 0: // For Sums
+
+        //            IsValueOneLocked = false;
+        //            ValueTwo = random.Next(maxValue);
+        //            Result = random.Next(maxValue) - valueTwo;
+
+        //            break;
+
+        //        case 1: // For Differences
+        //            ValueOne = random.Next(maxValue);
+        //            IsValueTwoLocked = false;
+        //            Result = ValueOne - random.Next(maxValue);
+
+        //            break;
+
+        //        case 2: // For Multiplications
+        //            ValueOne = random.Next(maxValue);
+        //            ValueTwo = random.Next(maxValue);
+        //            IsResultLocked = false;
+
+        //            break;
+        //        case 3: // For Divisions
+        //            ValueOne = random.Next(maxValue);
+        //            ValueTwo = random.Next(maxValue);
+        //            IsResultLocked = false;
+
+        //            break;
+        //        default:
+        //            return 0;
+
+
+        //    }
+        //}
 
         // STATS
         private void goToStatsMenu()

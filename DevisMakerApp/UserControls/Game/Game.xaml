@@ -26,7 +26,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,50,0,0" Width="440">
                 <TextBox IsReadOnly="{Binding IsValueOneLocked}" Text="{Binding ValueOne}" TextWrapping="Wrap" Width="102" Height="26" FontSize="20" FontFamily="Cascadia Code" TabIndex="0" Background="White" CaretBrush="#FF0F00CC" AutomationProperties.IsRequiredForForm="True" Margin="21,0,0,0"/>
-                <Label Content="+" FontSize="24" Width="26" Height="48" Margin="10,0,0,0"/>
+                <Label Content="{Binding OperationText}" FontSize="24" Width="26" Height="48" Margin="10,0,0,0"/>
                 <TextBox IsReadOnly="{Binding IsValueTwoLocked}" Text="{Binding ValueTwo}" TextWrapping="Wrap" FontSize="20" FontFamily="Cascadia Code" Height="26" TabIndex="1" AutomationProperties.IsRequiredForForm="True" Width="102" Margin="10,0,0,0"/>
                 <Label Content="=" FontSize="24" Width="26" Height="48" Margin="10,0,0,0"/>
                 <TextBox IsReadOnly="{Binding IsResultLocked}" Text="{Binding Result}" TextWrapping="Wrap" FontSize="20" FontFamily="Cascadia Code" Height="26" Width="102" TabIndex="2" AutomationProperties.IsRequiredForForm="True" Margin="10,0,0,0"/>
