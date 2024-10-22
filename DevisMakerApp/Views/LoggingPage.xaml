@@ -3,8 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DevisMakerApp.Views"
-      xmlns:Logging="clr-namespace:DevisMakerApp.UserControls.Logging" x:Class="DevisMakerApp.Views.LoggingPage"
+      xmlns:local="clr-namespace:Additionneur.Views"
+      xmlns:Logging="clr-namespace:Additionneur.UserControls.Logging" x:Class="Additionneur.Views.LoggingPage"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="LoggingPage" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -16,9 +16,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Logging:LoggingMenu Grid.Row="1" x:Name="LoggingMenu" Visibility="{Binding LoggingMenuVisibility}" Width="1280" Height="720" Grid.Column="1"/>
-        <Logging:LogIn Grid.Row ="1" x:Name="LoginMenu" Height="720" Width="1280" Visibility="{Binding LoginMenuVisibility}" Grid.Column="1"/>
-        <Logging:Register Grid.Row="1" x:Name="RegisterMenu" Visibility="{Binding RegisterMenuVisibility}" Width="1280" Height="720" Grid.Column="1"/>
+
+        <Logging:LoggingMenu Grid.Row="1" x:Name="LoggingMenu" Visibility="{Binding LoggingMenuVisibility}" Grid.Column="1"/>
+        <Logging:LogIn Grid.Row ="1" x:Name="LoginMenu" Visibility="{Binding LoginMenuVisibility}" Grid.Column="1"/>
+        <Logging:Register Grid.Row="1" x:Name="RegisterMenu" Visibility="{Binding RegisterMenuVisibility}" Grid.Column="1"/>
+
 
     </Grid>
 </Page>

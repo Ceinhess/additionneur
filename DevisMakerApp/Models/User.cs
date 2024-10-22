@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevisMakerApp.Models
+namespace Additionneur.Models
 {
     internal class User
     {

@@ -15,12 +15,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DevisMakerApp;
-using DevisMakerApp.Classes.MySqlCrud;
+using Additionneur;
+using Additionneur.Classes.MySqlCrud;
 using System.Security.Cryptography;
+using Additionneur.ViewModels;
 
 
-namespace DevisMakerApp.UserControls.Logging
+namespace Additionneur.UserControls.Logging
 {
     /// <summary>
     /// Logique d'interaction pour LogIn.xaml
@@ -54,7 +55,7 @@ namespace DevisMakerApp.UserControls.Logging
 
 
             // Converts the password+salt to bytes
-            byte[] saltedPassword = Encoding.ASCII.GetBytes(PasswordField.Text + row["password_salt"]);
+            byte[] saltedPassword = Encoding.ASCII.GetBytes(PasswordField.Password + row["password_salt"]);
 
             byte[] hashedPassword = SHA256.Create().ComputeHash(saltedPassword);
 
@@ -74,7 +75,7 @@ namespace DevisMakerApp.UserControls.Logging
         private void Clear()
         {
             MailField.Text = "";
-            PasswordField.Text = "";
+            PasswordField.Password = "";
             ErrorLabel.Content = "";
         }
 
@@ -84,6 +85,14 @@ namespace DevisMakerApp.UserControls.Logging
             this.Height = h;
 
 
+        }
+
+        private void PasswordField_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            {
+                ((LoggingPageVM)this.DataContext).LogPassword = ((PasswordBox)sender).Password;
+            }
         }
     }
 }

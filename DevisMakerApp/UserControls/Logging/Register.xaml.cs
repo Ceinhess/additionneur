@@ -15,10 +15,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DevisMakerApp;
-using DevisMakerApp.Classes.MySqlCrud;
+using Additionneur;
+using Additionneur.Classes.MySqlCrud;
+using Additionneur.ViewModels;
 
-namespace DevisMakerApp.UserControls.Logging
+namespace Additionneur.UserControls.Logging
 {
     /// <summary>
     /// Logique d'interaction pour Register.xaml
@@ -47,5 +48,20 @@ namespace DevisMakerApp.UserControls.Logging
         {
         }
 
+        private void RegPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if(this.DataContext != null)
+            {
+                ((LoggingPageVM)this.DataContext).RegPassword = ((PasswordBox)sender).Password;
+            }
+        }
+
+        private void RegPasswordVerifyBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            {
+                ((LoggingPageVM)this.DataContext).RegPasswordVerify = ((PasswordBox)sender).Password;
+            }
+        }
     }
 }

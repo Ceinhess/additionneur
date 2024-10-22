@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace DevisMakerApp
+namespace Additionneur
 {
     /// <summary>
     /// Interaction logic for App.xaml

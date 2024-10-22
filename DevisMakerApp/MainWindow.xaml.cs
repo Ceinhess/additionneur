@@ -1,4 +1,4 @@
-﻿using DevisMakerApp.ViewModels;
+﻿using Additionneur.ViewModels;
 using MySqlConnector;
 using System.Text;
 using System.Windows;
@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DevisMakerApp
+namespace Additionneur
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

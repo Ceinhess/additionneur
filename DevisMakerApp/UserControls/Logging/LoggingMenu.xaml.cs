@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DevisMakerApp.UserControls.Logging
+namespace Additionneur.UserControls.Logging
 {
     /// <summary>
     /// Logique d'interaction pour LoggingMenu.xaml

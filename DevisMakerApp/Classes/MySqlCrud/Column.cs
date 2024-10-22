@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevisMakerApp.Classes.MySqlCrud
+namespace Additionneur.Classes.MySqlCrud
 {
     public class Column
     {

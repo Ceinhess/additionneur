@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace DevisMakerApp.Classes.MySqlCrud
+namespace Additionneur.Classes.MySqlCrud
 {
     public class Table
     {

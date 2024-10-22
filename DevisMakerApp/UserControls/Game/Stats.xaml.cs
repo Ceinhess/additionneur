@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DevisMakerApp.UserControls.Game
+namespace Additionneur.UserControls.Game
 {
     /// <summary>
     /// Logique d'interaction pour Stats.xaml

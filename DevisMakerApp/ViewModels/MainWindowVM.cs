@@ -1,4 +1,4 @@
-﻿using DevisMakerApp.Views;
+﻿using Additionneur.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DevisMakerApp.Models;
+using Additionneur.Models;
 
-namespace DevisMakerApp.ViewModels
+namespace Additionneur.ViewModels
 {
     class MainWindowVM : BaseViewModel
     {

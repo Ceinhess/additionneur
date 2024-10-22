@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DevisMakerApp.ViewModels
+namespace Additionneur.ViewModels
 {
     internal class BaseViewModel : INotifyPropertyChanged
     {

@@ -1,11 +1,11 @@
-﻿<Window x:Class="DevisMakerApp.MainWindow"
+﻿<Window x:Class="Additionneur.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DevisMakerApp"
-        xmlns:controls="clr-namespace:DevisMakerApp.UserControls.Logging"
+        xmlns:local="clr-namespace:Additionneur"
+        xmlns:controls="clr-namespace:Additionneur.UserControls.Logging"
         mc:Ignorable="d"
-        Title="MainWindow" MinWidth="720" MinHeight="480" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" WindowStyle="ThreeDBorderWindow" Width="1280" Height="744">
-    <Frame x:Name="MainWindowFrame" Grid.RowSpan="2" Content="{Binding ActiveView}" IsTabStop="False" NavigationUIVisibility="Hidden"/>
+        Title="MainWindow" MinWidth="720" MinHeight="480" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" WindowStyle="ThreeDBorderWindow">
+    <Frame x:Name="MainWindowFrame" Grid.RowSpan="2" Content="{Binding ActiveView}" IsTabStop="False" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
 </Window>

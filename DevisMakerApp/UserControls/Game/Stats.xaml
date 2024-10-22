@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DevisMakerApp.UserControls.Game.Stats"
+﻿<UserControl x:Class="Additionneur.UserControls.Game.Stats"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DevisMakerApp.UserControls.Game"
+             xmlns:local="clr-namespace:Additionneur.UserControls.Game"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid Background="#FFFFFFFB">
@@ -30,6 +30,6 @@
         <TextBlock Grid.Column="1" Margin="282,112,284,0" Grid.Row="2" TextWrapping="Wrap" Text="Total" VerticalAlignment="Top" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
         <TextBlock Grid.Column="1" Margin="277,8,278,144" Grid.Row="2" TextWrapping="Wrap" Text="Normal" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
         <TextBlock Grid.Column="1" Margin="212,90,213,62" Grid.Row="1" TextWrapping="Wrap" Text="Average Scores:" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
-        <Button Command="{Binding GoToGameMenu}" Content="Back" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="36"/>
+        <Button Command="{Binding GoToGameMenu}" Content="Back" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="36" Background="{DynamicResource ButtonBackground1}" BorderBrush="{x:Null}"/>
     </Grid>
 </UserControl>

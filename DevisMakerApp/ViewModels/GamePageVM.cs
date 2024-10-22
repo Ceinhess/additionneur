@@ -1,4 +1,4 @@
-﻿using DevisMakerApp.Classes.MySqlCrud;
+﻿using Additionneur.Classes.MySqlCrud;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace DevisMakerApp.ViewModels
+namespace Additionneur.ViewModels
 {
     class GamePageVM : BaseViewModel
     {
@@ -278,6 +278,7 @@ namespace DevisMakerApp.ViewModels
             NewRound = new RelayCommand(o => newRound());
             RePlay = new RelayCommand(o => rePlay());
             GoToStatsMenu = new RelayCommand(o => goToStatsMenu());
+            GoToGameMenu = new RelayCommand(o=> goToGameMenu());
 
             Difficulty = 1;
             MaxRoundsIndex = 1;
@@ -325,7 +326,7 @@ namespace DevisMakerApp.ViewModels
 
         private void rePlay()
         {
-            EndVisibility = Visibility.Visible;
+            EndVisibility = Visibility.Collapsed;
             MenuVisibility = Visibility.Visible;
         }
 
@@ -454,6 +455,7 @@ namespace DevisMakerApp.ViewModels
             StatsVisibility = Visibility.Collapsed;
             MenuVisibility = Visibility.Visible;
         }
+
 
     }
 }

@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DevisMakerApp.ViewModels;
+using Additionneur.ViewModels;
 
-namespace DevisMakerApp.Views
+namespace Additionneur.Views
 {
     /// <summary>
     /// Logique d'interaction pour GamePage.xaml

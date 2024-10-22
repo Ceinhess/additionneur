@@ -1,40 +1,42 @@
-﻿<UserControl x:Class="DevisMakerApp.UserControls.Logging.Register"
+﻿<UserControl x:Class="Additionneur.UserControls.Logging.Register"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DevisMakerApp.UserControls.Logging"
+             xmlns:local="clr-namespace:Additionneur.UserControls.Logging"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid Background="#FFFCFFFF">
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="209*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="158*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="2" Content="Inscription" HorizontalAlignment="Center" VerticalAlignment="Top" Height="52" FontSize="24" Grid.ColumnSpan="2" Margin="0,10,0,0" Width="122" Grid.Row="1"/>
-        <TextBox x:Name="SurnameField" Text="{Binding RegSurname}" Grid.Column="2" HorizontalAlignment="Center" Margin="0,102,0,0" Grid.Row="1" TextWrapping="Wrap" Width="267" Height="26" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="0"/>
-        <Label Grid.Column="2" Content="Nom" HorizontalAlignment="Left" Margin="87,71,0,0" Grid.Row="1" VerticalAlignment="Top" Width="52" Height="26"/>
-        <TextBox x:Name="NameField" Text="{Binding RegName}" Grid.Column="2" HorizontalAlignment="Center" Margin="0,164,0,0" Grid.Row="1" TextWrapping="Wrap" Width="267" Height="26" Grid.ColumnSpan="2" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" VerticalAlignment="Top" TabIndex="1"/>
-        <Label Grid.Column="2" Content="Prénom" Margin="0,133,57,0" Grid.Row="1" VerticalAlignment="Top" Height="26" HorizontalAlignment="Right" Width="69"/>
-        <TextBox x:Name="MailField" Text="{Binding RegMail}" Grid.Column="2" HorizontalAlignment="Center" Margin="0,39,0,0" Grid.Row="2" TextWrapping="Wrap" Width="267" Height="26" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="2"/>
-        <Label Grid.Column="2" Content="Mail" Margin="0,8,12,0" Grid.Row="2" VerticalAlignment="Top" Height="26" HorizontalAlignment="Right" Width="114"/>
-        <TextBox x:Name="PasswordField" Text="{Binding RegPassword}" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Width="267" Height="26" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" Margin="0,163,0,0" TabIndex="4"/>
-        <Label Grid.Column="2" Content="Mot de passe" Margin="0,70,27,0" Grid.Row="2" VerticalAlignment="Top" Height="26" HorizontalAlignment="Right" Width="99"/>
-        <TextBox x:Name="PasswordVerifyField" Text="{Binding RegPasswordVerify}" Grid.Column="2" HorizontalAlignment="Center" Margin="0,101,0,0" Grid.Row="2" TextWrapping="Wrap" Width="267" Height="26" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="3"/>
-        <Button x:Name="SubmitRegisterButton" Command="{Binding SubmitReg}" Grid.Column="2" Content="Valider" HorizontalAlignment="Center" Margin="0,5,0,0" Grid.Row="3" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="40" Width="152" FontSize="20" UseLayoutRounding="True" BorderBrush="#06707070" Background="#FFD0EFE8" IsEnabled="{Binding IsRegBtnEnabled}" TabIndex="5"/>
         <Button x:Name="BackBTN" Command="{Binding ReturnToChoice}" Content="x" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="3,0,0,0" IsCancel="True" FontFamily="Wingdings" Height="18" Width="28" FontSize="16" Margin="10,10,0,0" IsTabStop="False"/>
-        <Label x:Name="ErrorLabel" Grid.Column="2" Content="{Binding RegMessageText}" HorizontalAlignment="Center" Grid.ColumnSpan="2" Foreground="{Binding RegMessageColor}" Grid.RowSpan="1" Width="426" Margin="0,108,0,0" Height="62" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
-        <Label Grid.Column="2" Content="Vérification" Margin="0,132,27,0" Grid.Row="2" VerticalAlignment="Top" Height="26" HorizontalAlignment="Right" Width="99"/>
+        <StackPanel Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="470" Grid.Row="1" CanVerticallyScroll="True">
+            <Label Content="Inscription" Height="52" FontSize="24" FontFamily="Cascadia Code" HorizontalAlignment="Center"/>
+            <Label x:Name="ErrorLabel" Content="{Binding RegMessageText}" Foreground="{Binding RegMessageColor}" FontSize="14" FontWeight="Bold"/>
+            <Label Content="Nom" HorizontalAlignment="Left"/>
+            <TextBox x:Name="SurnameField" Text="{Binding RegSurname}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Nom" TabIndex="0" Width="469" AutomationProperties.IsRequiredForForm="True"/>
+            <Label Content="Prénom"/>
+            <TextBox x:Name="NameField" Text="{Binding RegName}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="1" AutomationProperties.IsRequiredForForm="True"/>
+            <Label Content="Mail"/>
+            <TextBox x:Name="MailField" Text="{Binding RegMail}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Adresse e-mail" TabIndex="2" AutomationProperties.IsRequiredForForm="True"/>
+            <Label Content="Mot de passe"/>
+            <PasswordBox x:Name="PasswordField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordBox_PasswordChanged"/>
+            <Label Content="Vérification"/>
+            <PasswordBox x:Name="PasswordVerifyField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordVerifyBox_PasswordChanged"/>
+            <Button x:Name="SubmitRegisterButton" Command="{Binding SubmitReg}" Content="Valider" FontSize="20" UseLayoutRounding="True" BorderBrush="#06707070" IsEnabled="{Binding IsRegBtnEnabled}" TabIndex="5" Margin="0,25,0,0" Width="106" Background="{DynamicResource ButtonBackground1}" FontFamily="Cascadia Code"/>
+
+
+        </StackPanel>
 
     </Grid>
 </UserControl>

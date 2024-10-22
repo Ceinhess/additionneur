@@ -1,4 +1,4 @@
-﻿using DevisMakerApp.Classes.MySqlCrud;
+﻿using Additionneur.Classes.MySqlCrud;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using DevisMakerApp.Models;
+using Additionneur.Models;
 
-namespace DevisMakerApp.ViewModels
+namespace Additionneur.ViewModels
 {
     internal class LoggingPageVM : BaseViewModel
     {

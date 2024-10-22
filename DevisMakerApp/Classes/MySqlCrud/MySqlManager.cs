@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace DevisMakerApp.Classes.MySqlCrud
+namespace Additionneur.Classes.MySqlCrud
 {
     public class MySqlManager
     {
