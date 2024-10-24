@@ -24,23 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `rounds`
---
-
-CREATE TABLE `rounds` (
-  `user_id` int(11) NOT NULL,
-  `difficulty` int(3) NOT NULL COMMENT '0 = easy, 1 = normal, 2 = hard',
-  `correct_answers` int(4) NOT NULL,
-  `max_answers` int(4) NOT NULL,
-  `round_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `rounds`
---
-
-INSERT INTO `rounds` (`user_id`, `difficulty`, `correct_answers`, `max_answers`, `round_id`) VALUES
-
 -- --------------------------------------------------------
 
 --
@@ -59,8 +42,6 @@ CREATE TABLE `users` (
 --
 -- Déchargement des données de la table `users`
 --
-
-INSERT INTO `users` (`mail`, `name`, `surname`, `password`, `password_salt`, `user_id`) 
 
 --
 -- Index pour les tables déchargées
@@ -99,3 +80,5 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+

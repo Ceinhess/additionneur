@@ -11,12 +11,12 @@
 
     <Grid>
 
-        <Game:Stats HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="{Binding StatsVisibility}"/>
+        <Game:Stats  Visibility="{Binding StatsVisibility}"/>
 
-        <Game:End HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding EndVisibility}"/>
+        <Game:End Visibility="{Binding EndVisibility}"/>
 
-        <Game:Game HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GameVisibility}" />
-        <Game:Menu HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding MenuVisibility}"/>
+        <Game:Game Visibility="{Binding GameVisibility}" />
+        <Game:Menu Visibility="{Binding MenuVisibility}"/>
 
     </Grid>
 </Page>

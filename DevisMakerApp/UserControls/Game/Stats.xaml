@@ -8,28 +8,62 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid Background="#FFFFFFFB">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="Prenom" Grid.Column="1" Margin="0,0,33,142" Grid.Row="1" TextWrapping="Wrap" Text="{Binding UserName}" VerticalAlignment="Bottom" FontSize="24" FontFamily="Cascadia Code" HorizontalAlignment="Right" Width="127"/>
-        <TextBlock x:Name="Nom" Grid.Column="2" HorizontalAlignment="Left" Margin="33,0,0,142" Grid.Row="1" TextWrapping="Wrap" Text="{Binding UserSurname}" FontSize="24" FontFamily="Cascadia Code" Height="28" VerticalAlignment="Bottom"/>
-        <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgEasy}" FontSize="24" FontFamily="Cascadia Code" Margin="319,36,0,0" HorizontalAlignment="Left" Width="127" Grid.ColumnSpan="2" Height="28" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" Margin="256,36,257,116" Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgNormal}" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
-        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="182,36,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgHard}" FontSize="24" FontFamily="Cascadia Code" Height="28" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" Margin="256,140,257,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding UserAvgTotal}" VerticalAlignment="Top" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
-        <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Easy" FontSize="24" FontFamily="Cascadia Code" Margin="0,8,194,0" HorizontalAlignment="Right" Width="127" Grid.ColumnSpan="2" Height="28" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="252,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Hard" FontSize="24" FontFamily="Cascadia Code" FlowDirection="RightToLeft" Height="28" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" Margin="282,112,284,0" Grid.Row="2" TextWrapping="Wrap" Text="Total" VerticalAlignment="Top" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
-        <TextBlock Grid.Column="1" Margin="277,8,278,144" Grid.Row="2" TextWrapping="Wrap" Text="Normal" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
-        <TextBlock Grid.Column="1" Margin="212,90,213,62" Grid.Row="1" TextWrapping="Wrap" Text="Average Scores:" FontSize="24" FontFamily="Cascadia Code" Grid.ColumnSpan="2"/>
-        <Button Command="{Binding GoToGameMenu}" Content="Back" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="36" Background="{DynamicResource ButtonBackground1}" BorderBrush="{x:Null}"/>
+        <Grid x:Name="grid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="11*" x:Name="StatsRow"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition  Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.RowSpan="3" Grid.ColumnSpan="1">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="#FFF4FFFF" Opacity="1"/>
+                </StackPanel.Background>
+                <Button  Command="{Binding GoToGameMenu}" Content="Retour" Background="{DynamicResource ButtonBackground1}" BorderBrush="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,20,0,0" Padding="15,10,15,10"/>
+                <TextBlock Text="Type" FontFamily="Cascadia Code" FontSize="16" Margin="15,20,0,0"/>
+                <ListBox SelectedIndex="{Binding StatsTypeIndex}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="15,0,15,0">
+                    <TextBlock Text="Sums" FontFamily="Cascadia Code" FontSize="16"/>
+                    <TextBlock Text="Differences" FontFamily="Cascadia Code" FontSize="16"/>
+                    <TextBlock Text="Multiplications" FontFamily="Cascadia Code" FontSize="16"/>
+                    <TextBlock Text="Divisions" FontFamily="Cascadia Code" FontSize="16"/>
+                    <TextBlock Text="All" FontFamily="Cascadia Code" FontSize="16"/>
+                </ListBox>
+                <TextBlock Text="Difficulty" FontFamily="Cascadia Code" FontSize="16" Margin="15,20,0,0"/>
+                <ListBox SelectedIndex="{Binding StatsDifficultyIndex}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="10,0,15,0">
+                    <TextBlock Text="Easy" FontFamily="Cascadia Code" FontSize="16"/>
+                    <TextBlock Text="Normal" FontFamily="Cascadia Code" FontSize="16"/>
+                    <TextBlock Text="Hard" FontFamily="Cascadia Code" FontSize="16"/>
+                    <TextBlock Text="All" FontFamily="Cascadia Code" FontSize="16"/>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="1" Grid.Column="1">
+                <TextBlock Text="{Binding UserName}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="10,0,0,0"/>
+                <TextBlock Text="{Binding UserSurname}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="10,0,0,0"/>
+                <TextBlock Text="amount of games" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="10,0,0,0"/>
+            </StackPanel>
+            <Grid Grid.ColumnSpan="1" Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Difficulty" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="25,0,0,0" HorizontalAlignment="Right"/>
+                <TextBlock Text="Total Rounds" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="25,0,0,0" Grid.Column="1" HorizontalAlignment="Right"/>
+                <TextBlock Text="Score" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="25,0,0,0" Grid.Column="2" HorizontalAlignment="Right"/>
+                <TextBlock Text="Average" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="25,0,0,0" Grid.Column="3" HorizontalAlignment="Right"/>
+            </Grid>
+            <ListBox ItemsSource="{Binding StatsList}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" AutomationProperties.IsOffscreenBehavior="FromClip" UseLayoutRounding="False" IsTextSearchEnabled="False" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True" Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Stretch"/>
+
+        </Grid>
     </Grid>
 </UserControl>

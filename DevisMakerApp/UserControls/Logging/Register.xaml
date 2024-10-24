@@ -33,7 +33,7 @@
             <PasswordBox x:Name="PasswordField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordBox_PasswordChanged"/>
             <Label Content="Vérification"/>
             <PasswordBox x:Name="PasswordVerifyField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordVerifyBox_PasswordChanged"/>
-            <Button x:Name="SubmitRegisterButton" Command="{Binding SubmitReg}" Content="Valider" FontSize="20" UseLayoutRounding="True" BorderBrush="#06707070" IsEnabled="{Binding IsRegBtnEnabled}" TabIndex="5" Margin="0,25,0,0" Width="106" Background="{DynamicResource ButtonBackground1}" FontFamily="Cascadia Code"/>
+            <Button x:Name="SubmitRegisterButton" Command="{Binding SubmitReg}" Content="Valider" FontSize="20" UseLayoutRounding="True" BorderBrush="#06707070" IsEnabled="{Binding IsRegBtnEnabled}" TabIndex="5" Margin="0,25,0,0" Background="{DynamicResource ButtonBackground1}" FontFamily="Cascadia Code" HorizontalAlignment="Center" Padding="15,10,15,10"/>
 
 
         </StackPanel>

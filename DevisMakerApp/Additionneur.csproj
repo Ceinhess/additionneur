@@ -29,4 +29,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserControls\Game\Stats\" />
+  </ItemGroup>
+
 </Project>

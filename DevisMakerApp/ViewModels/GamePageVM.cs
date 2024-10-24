@@ -1,12 +1,16 @@
 ﻿using Additionneur.Classes.MySqlCrud;
+using Additionneur.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
 namespace Additionneur.ViewModels
@@ -122,10 +126,10 @@ namespace Additionneur.ViewModels
         private bool isValueTwoLocked;
         private bool isResultLocked;
 
+        private string focusedField;
+
         public ICommand NewRound { get; }
         public ICommand RePlay { get; }
-
-        
 
         private int toGuess;
 
@@ -233,6 +237,16 @@ namespace Additionneur.ViewModels
             }
         }
 
+        public string FocusedField
+        {
+            get { return focusedField; }
+            set
+            {
+                focusedField = value;
+                OnPropertyChanged("FocusedField");
+            }
+        }
+
         // STATS
 
         public ICommand GoToGameMenu { get; }
@@ -241,11 +255,26 @@ namespace Additionneur.ViewModels
         private string userName;
         private string userSurname;
 
+        private int statsTypeIndex = 0;
+        private int statsDifficultyIndex = 0;
+
+        private ObservableCollection<Grid> statsList = [];
+
         private float userAvgEasy;
         private float userAvgNormal;
         private float userAvgHard;
 
         private float userAvgTotal;
+
+        public ObservableCollection<Grid> StatsList
+        {
+            get { return statsList; }
+            set
+            {
+                statsList = value;
+                OnPropertyChanged("StatsList");
+            }
+        }
 
         public string UserName
         {
@@ -263,6 +292,30 @@ namespace Additionneur.ViewModels
             {
                 userSurname = value;
                 OnPropertyChanged("UserSurname");
+            }
+        }
+
+        public int StatsTypeIndex
+        {
+            get { return statsTypeIndex; }
+            set
+            {
+                statsTypeIndex = value;
+                generateStats();
+                OnPropertyChanged("StatsTypeIndex");
+                
+            }
+        }
+
+        public int StatsDifficultyIndex
+        {
+            get { return statsDifficultyIndex; }
+            set
+            {
+                statsDifficultyIndex = value;
+                generateStats();
+                OnPropertyChanged("StatsDifficultyIndex");
+                
             }
         }
 
@@ -408,6 +461,10 @@ namespace Additionneur.ViewModels
             IsValueTwoLocked = true;
             IsResultLocked = true;
 
+            toGuess = random.Next(3);
+
+            FocusedField = (new[] { "ValueOneField", "ValueTwoField", "ResultField" })[toGuess];
+
             // generates the round
             switch (GameTypeIndex)
             {
@@ -421,7 +478,7 @@ namespace Additionneur.ViewModels
                     makeMultiplicationRound();
                     break;
                 case 3:
-                    if (ValueOne / ValueTwo == Result) Score++;
+                    makeDivisionRound();
                     break;
             }
         }
@@ -431,9 +488,7 @@ namespace Additionneur.ViewModels
             int maxValue = (int)Math.Pow(10, 2 + Difficulty);
 
             //If difficulty is hard, allow negative values
-            int minValue = Difficulty == 0 ? -maxValue : 0;
-
-            toGuess = random.Next(3);
+            int minValue = Difficulty == 2 ? -maxValue : 0;
 
             switch (toGuess)
             {
@@ -470,8 +525,6 @@ namespace Additionneur.ViewModels
             //If difficulty is hard, allow negative values
             int minValue = Difficulty == 2 ? -maxValue : 0;
 
-            toGuess = random.Next(3);
-
             switch (toGuess)
             {
                 case 0: // First Value
@@ -505,8 +558,6 @@ namespace Additionneur.ViewModels
 
             //If difficulty isn't easy, allow negative values
             int minValue = Difficulty == 0 ? 2 : -maxValue;
-
-            toGuess = random.Next(3);
 
             switch (toGuess)
             {
@@ -542,51 +593,15 @@ namespace Additionneur.ViewModels
             //If difficulty isn't easy, allow negative values
             int minFirstValue = Difficulty == 0 ? 10 : -maxFirstValue;
 
+            FocusedField = "ValueField";
+
             ValueOne = random.Next(minFirstValue, maxFirstValue);
 
-            ValueTwo = random.Next(-(ValueOne / 2), ValueOne / 2);
+            ValueTwo = ValueOne > 0 ? random.Next(-(ValueOne / 2), ValueOne / 2) : random.Next((ValueOne / 2), -ValueOne / 2);
 
             IsResultLocked = false;
 
         }
-
-        //private int generateValue()
-        //{
-        //    switch (GameTypeIndex)
-        //    {
-        //        case 0: // For Sums
-
-        //            IsValueOneLocked = false;
-        //            ValueTwo = random.Next(maxValue);
-        //            Result = random.Next(maxValue) - valueTwo;
-
-        //            break;
-
-        //        case 1: // For Differences
-        //            ValueOne = random.Next(maxValue);
-        //            IsValueTwoLocked = false;
-        //            Result = ValueOne - random.Next(maxValue);
-
-        //            break;
-
-        //        case 2: // For Multiplications
-        //            ValueOne = random.Next(maxValue);
-        //            ValueTwo = random.Next(maxValue);
-        //            IsResultLocked = false;
-
-        //            break;
-        //        case 3: // For Divisions
-        //            ValueOne = random.Next(maxValue);
-        //            ValueTwo = random.Next(maxValue);
-        //            IsResultLocked = false;
-
-        //            break;
-        //        default:
-        //            return 0;
-
-
-        //    }
-        //}
 
         // STATS
         private void goToStatsMenu()
@@ -645,7 +660,101 @@ namespace Additionneur.ViewModels
             
             MenuVisibility = Visibility.Collapsed;
             StatsVisibility = Visibility.Visible;
+
+            generateStats();
+
+
+        }
+
+        private void generateStats()
+        {
+            StatsList.Clear();
+
+            MySqlManager manager = new();
+
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+
+            List<string> columnsNames = [];
+            List<object> columnsValues = [];
+
+            columnsNames.Add("user_id");
+            columnsValues.Add(MainVM.User.Id);
+
+            if (StatsTypeIndex != 4)
+            {
+                columnsNames.Add("game_type");
+                columnsValues.Add(StatsTypeIndex);
+            }
+
+            if (StatsDifficultyIndex != 3)
+            {
+                columnsNames.Add("difficulty");
+                columnsValues.Add(StatsDifficultyIndex);
+            }
+
+
+            if(columnsNames.Count > 1)
+                rows = manager.GetTable("rounds").SelectRows(columnsNames.ToArray(), columnsValues.ToArray());
+            else
+                rows = manager.GetTable("rounds").SelectRows(columnsNames[0], columnsValues[0]);
+
+
+            for(int j = rows.Count - 1; j >= 0; j--)
+            { 
+                var row = rows[j];
             
+                Grid container = new();
+
+                for(int i = 0; i<5; i++)
+                {
+                    ColumnDefinition col = new();
+                    col.Width = new GridLength(1, GridUnitType.Star);
+                    container.ColumnDefinitions.Add(col);
+                }
+
+                container.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    
+
+                TextBox diff = new();
+                diff.Text = (new[] { "Easy", "Normal", "Hard" })[(int) row["difficulty"]];
+                diff.SetValue(Grid.ColumnProperty, 0);
+
+                TextBox totRounds = new();
+                totRounds.Text = row["max_answers"].ToString();
+                totRounds.SetValue(Grid.ColumnProperty, 1);
+
+                TextBox score = new();
+                score.Text = row["correct_answers"].ToString();
+                score.SetValue(Grid.ColumnProperty, 2);
+
+                TextBox avg = new();
+                avg.Text = (((int) row["correct_answers"] * 100) / ((int) row["max_answers"]) ).ToString() + "%";
+                avg.SetValue(Grid.ColumnProperty, 3);
+
+                container.Children.Add(diff);
+                container.Children.Add(totRounds);
+                container.Children.Add(score);
+                container.Children.Add(avg);
+
+                foreach (TextBox t in container.Children)
+                {
+                    t.FontFamily = new System.Windows.Media.FontFamily("Cascadia Code");
+                    t.FontSize = 16;
+                    t.VerticalAlignment = VerticalAlignment.Center;
+                    t.Margin = new Thickness(25, 0, 0, 0);
+                    t.HorizontalAlignment = HorizontalAlignment.Right;
+                    t.BorderThickness = new Thickness(0);
+                    t.Background = Brushes.Transparent;
+                }
+
+                StatsList.Add(container);
+            }
+
+            
+
+
+
+
         }
 
         private void goToGameMenu()
