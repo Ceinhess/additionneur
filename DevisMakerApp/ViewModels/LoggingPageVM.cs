@@ -19,8 +19,7 @@ namespace Additionneur.ViewModels
         private string logMail;
         private string logPassword;
 
-        private string regName;
-        private string regSurname;
+        private string regUsername;
         private string regMail;
         private string regPassword;
         private string regPasswordVerify;
@@ -64,22 +63,13 @@ namespace Additionneur.ViewModels
             }
         }
 
-        public string RegName
+        public string RegUsername
         {
-            get { return regName; }
+            get { return regUsername; }
             set
             {
-                regName = value;
-                OnPropertyChanged("RegName");
-            }
-        }
-        public string RegSurname
-        {
-            get { return regSurname; }
-            set
-            {
-                regSurname = value;
-                OnPropertyChanged("RegSurname");
+                regUsername = value;
+                OnPropertyChanged("RegUsername");
             }
         }
         public string RegMail
@@ -237,8 +227,7 @@ namespace Additionneur.ViewModels
         // ==========[ MISC
         private void Clear()
         {
-            RegName = "";
-            RegSurname = "";
+            RegUsername = "";
             RegMail = "";
             RegPassword = "";
             RegPasswordVerify = "";
@@ -258,13 +247,14 @@ namespace Additionneur.ViewModels
         // ==========[ FORM HANDLING
         private void submitLog(object sender)
         {
+            // Creates MySQL manager and requests a row with the given email to verify if it exists.
             MySqlManager manager = new();
 
             var row = manager.GetTable("users").SelectRow("mail", LogMail);
 
             if (row.Count == 0)
             {
-                LogMessageText = "Utilisateur introuvable.";
+                LogMessageText = "Unknow user.";
                 return;
             }
             
@@ -277,16 +267,33 @@ namespace Additionneur.ViewModels
             //Encrypts it and converts it to string
             string password = Convert.ToBase64String(hashedPassword);
 
+            // Compares encrypted given password to the one stored on the DB
             if (password != (string)row["password"])
-            {
-                LogMessageText = "Mot de passe incorrect.";
+            {   // Stops if incorrect
+                LogMessageText = "Incorrect passwords.";
                 return;
             }
 
-            LogMessageText = "Identifiants corrects !";
+            // Continues if correct, show "success" text then proceed
+            LogMessageText = "Success !";
             LogMessageColor = Brushes.Green;
 
             SuccessfullyLogIn(row);
+        }
+        private async void SuccessfullyLogIn(Dictionary<string, object> UserData)
+        {
+            // Wait 0.4 seconds
+            await Task.Delay(400);
+
+            // Clear all fields and hide the menu
+            Clear();
+            LoginMenuVisibility = Visibility.Collapsed;
+
+            // Updates the current user in the Main View Model
+            MainVM.User = new User((int)UserData["user_id"], (string)UserData["username"], (string)UserData["mail"]);
+
+            // Tells the main view model to go to the game view
+            MainVM.GoToGameView();
         }
 
 
@@ -320,11 +327,8 @@ namespace Additionneur.ViewModels
             //Encrypts it and converts it to string
             string password = Convert.ToBase64String(hashedPassword);
 
-            Trace.WriteLine(password);
-
             Dictionary<string, object> UserData = new() {
-                {"name", RegName},
-                {"surname", RegSurname},
+                {"username", RegUsername},
                 {"mail", RegMail},
                 { "password", password },
                 { "password_salt", salt }
@@ -341,15 +345,13 @@ namespace Additionneur.ViewModels
 
         private string VerifyRegisterForm()
         {
-            RegSurname = RegSurname.Trim(' ');
-            RegName = RegName.Trim(' ');
+            RegUsername = RegUsername.Trim(' ');
             RegMail = RegMail.Trim(' ');
             RegPassword = RegPassword.Trim(' ');
             RegPasswordVerify = RegPasswordVerify.Trim(' ');
 
             // Tests de longueurs min
-            if (RegSurname.Length < 0 ||
-                RegName.Length < 0 ||
+            if (RegUsername.Length < 0 ||
                 RegMail.Length < 6 ||
                 RegPassword.Length < 6)
             {
@@ -357,8 +359,7 @@ namespace Additionneur.ViewModels
                 return "LongueurMin";
             }
             // Tests de longueurs max
-            if (RegSurname.Length > 128 ||
-                RegName.Length > 128 ||
+            if (RegUsername.Length > 128 ||
                 RegMail.Length > 256 ||
                 RegPassword.Length > 256)
             {
@@ -405,16 +406,7 @@ namespace Additionneur.ViewModels
             LoginMenuVisibility = Visibility.Visible;
         }
 
-        private async void SuccessfullyLogIn(Dictionary<string, object> UserData)
-        {
-            await Task.Delay(400);
-
-            Clear();
-            RegisterMenuVisibility = Visibility.Collapsed;
-
-            MainVM.User = new User((int)UserData["user_id"], (string)UserData["name"], (string)UserData["surname"], (string)UserData["mail"]);
-            MainVM.GoToGameView();
-        }
+        
 
     }
 }

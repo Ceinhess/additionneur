@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 
 namespace Additionneur.ViewModels
@@ -22,7 +23,7 @@ namespace Additionneur.ViewModels
         private int difficulty;
 
         private int maxRounds;
-        
+
         public ICommand StartGame { get; }
 
         private bool isMenuVisible;
@@ -62,7 +63,7 @@ namespace Additionneur.ViewModels
         /// </summary>
         public int MaxRoundsIndex
         {
-            get { return (maxRounds-10)/5; }
+            get { return (maxRounds - 10) / 5; }
             set
             {
                 maxRounds = (value + 2) * 5;
@@ -252,19 +253,14 @@ namespace Additionneur.ViewModels
         public ICommand GoToGameMenu { get; }
         public ICommand GoToStatsMenu { get; }
 
-        private string userName;
-        private string userSurname;
+        private string username;
 
         private int statsTypeIndex = 0;
         private int statsDifficultyIndex = 0;
 
         private ObservableCollection<Grid> statsList = [];
 
-        private float userAvgEasy;
-        private float userAvgNormal;
-        private float userAvgHard;
-
-        private float userAvgTotal;
+        private int averageScore;
 
         public ObservableCollection<Grid> StatsList
         {
@@ -276,22 +272,13 @@ namespace Additionneur.ViewModels
             }
         }
 
-        public string UserName
+        public string Username
         {
-            get { return userName; }
+            get { return username; }
             set
             {
-                userName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
-        public string UserSurname
-        {
-            get { return userSurname; }
-            set
-            {
-                userSurname = value;
-                OnPropertyChanged("UserSurname");
+                username = value;
+                OnPropertyChanged("Username");
             }
         }
 
@@ -303,7 +290,7 @@ namespace Additionneur.ViewModels
                 statsTypeIndex = value;
                 generateStats();
                 OnPropertyChanged("StatsTypeIndex");
-                
+
             }
         }
 
@@ -315,44 +302,17 @@ namespace Additionneur.ViewModels
                 statsDifficultyIndex = value;
                 generateStats();
                 OnPropertyChanged("StatsDifficultyIndex");
-                
+
             }
         }
 
-        public float UserAvgEasy
+        public int AverageScore
         {
-            get { return userAvgEasy; }
+            get { return averageScore; }
             set
             {
-                userAvgEasy = value;
-                OnPropertyChanged("UserAvgEasy");
-            }
-        }
-        public float UserAvgNormal
-        {
-            get { return userAvgNormal; }
-            set
-            {
-                userAvgNormal = value;
-                OnPropertyChanged("UserAvgNormal");
-            }
-        }
-        public float UserAvgHard
-        {
-            get { return userAvgHard; }
-            set
-            {
-                userAvgHard = value;
-                OnPropertyChanged("UserAvgHard");
-            }
-        }
-        public float UserAvgTotal
-        {
-            get { return userAvgTotal; }
-            set
-            {
-                userAvgTotal = value;
-                OnPropertyChanged("UserAvgTotal");
+                averageScore = value;
+                OnPropertyChanged("AverageScore"); 
             }
         }
 
@@ -382,26 +342,35 @@ namespace Additionneur.ViewModels
         // GAME
         private void startGame()
         {
+            // Shows the game screen
             GameVisibility = Visibility.Visible;
             MenuVisibility = Visibility.Collapsed;
 
+            // Resets the score and round counters
             CurrentRound = 0;
             Score = 0;
 
+            // Changes the sign of the operation according to the game type
+            // 0 = sum, 1 = difference, 2 = mult, 3 = division
             OperationText = (new[] { "+", "-", "x", "//" })[GameTypeIndex];
 
+            // Generate the first round
             newRound();
         }
 
         private void endGame()
         {
-            ScoreText = $"Score final: {Score}/{currentRound}";
+            // Shows the end screen
             GameVisibility = Visibility.Collapsed;
-            EndVisibility= Visibility.Visible;
+            EndVisibility = Visibility.Visible;
 
+            // updates the score text
+            ScoreText = $"Final score: {Score}/{currentRound}";
+            
+            // upload the round stats to the DB
             MySqlManager manager = new();
 
-            manager.GetTable("rounds").InsertRow(new Dictionary<string, object>
+            manager.GetTable("games").InsertRow(new Dictionary<string, object>
             {
                 {"user_id", MainVM.User.Id},
                 {"difficulty", Difficulty },
@@ -413,6 +382,7 @@ namespace Additionneur.ViewModels
 
         private void rePlay()
         {
+            // simply go back to the game menu
             EndVisibility = Visibility.Collapsed;
             MenuVisibility = Visibility.Visible;
         }
@@ -439,10 +409,9 @@ namespace Additionneur.ViewModels
                 }
             }
 
-            // If last round was THE last round, do not generate a new one
+            // If last round was THE last round, do not generate a new one and end the game
             if(currentRound >= maxRounds)
             {
-
                 endGame();
                 return;
             }
@@ -461,11 +430,14 @@ namespace Additionneur.ViewModels
             IsValueTwoLocked = true;
             IsResultLocked = true;
 
+            // Chooses which field the player will guess
+            // 0 = first value, 1 = second one, 2 = result
+            // will always be 2 for divisions
             toGuess = random.Next(3);
 
             FocusedField = (new[] { "ValueOneField", "ValueTwoField", "ResultField" })[toGuess];
 
-            // generates the round
+            // generates the round depending on the type of game
             switch (GameTypeIndex)
             {
                 case 0:
@@ -606,61 +578,14 @@ namespace Additionneur.ViewModels
         // STATS
         private void goToStatsMenu()
         {
-            Trace.WriteLine("TEST");
-
-            MySqlManager manager = new();
-
-            var rows = manager.GetTable("rounds").SelectRows("user_id", MainVM.User.Id);
-
-            float avgEasy = 0f;
-            float avgNormal = 0f;
-            float avgHard = 0f;
-
-            int nbEasy = 0;
-            int nbNormal = 0;
-            int nbHard = 0;
-
-            Trace.WriteLine(rows);
-
-            foreach (var row in rows)
-            {
-                Trace.WriteLine(row["correct_answers"].GetType());
-                Trace.WriteLine(row["max_answers"].GetType());
-
-                //Trace.WriteLine("cor1"+row["correct_answers"]);
-                switch (Convert.ToInt32(row["difficulty"]))
-                {
-                    case 0:
-                        nbEasy++;
-                        avgEasy +=   (float)(int)row["correct_answers"] / (int) row["max_answers"];
-                        Trace.WriteLine(row["correct_answers"]);
-                        break;
-
-                    case 1:
-                        nbNormal++;
-                        avgNormal += (float)(int)row["correct_answers"] / (int)row["max_answers"];
-                        Trace.WriteLine("avgnormal: " + avgEasy);
-                        break;
-
-                    case 2:
-                        nbHard++;
-                        avgHard += (float)(int)row["correct_answers"] / (int)row["max_answers"];
-                        break;
-                }
-            }
-
-            UserAvgEasy = nbEasy != 0 ? avgEasy / nbEasy : 0f;
-            UserAvgNormal = nbNormal != 0 ? avgNormal / nbNormal : 0f;
-            UserAvgHard = nbHard != 0 ? avgHard / nbHard : 0f;
-
-            UserAvgTotal = (UserAvgEasy * nbEasy + UserAvgNormal * nbNormal + UserAvgHard * nbHard) / ( nbEasy + nbNormal + nbHard);
-
-            UserName = MainVM.User.Name;
-            UserSurname = UserSurname != "." ? MainVM.User.Surname : "";
+            // Updates User Name in case it's the first menu opening or if it changed
+            Username = MainVM.User.Username;
             
+            // Shows the stats menu and hide the game one
             MenuVisibility = Visibility.Collapsed;
             StatsVisibility = Visibility.Visible;
 
+            // Generate the stats
             generateStats();
 
 
@@ -668,43 +593,50 @@ namespace Additionneur.ViewModels
 
         private void generateStats()
         {
+            // Clears the list of games
             StatsList.Clear();
 
-            MySqlManager manager = new();
-
+            // Dict that'll store all the games rows
             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
 
+            // Lists that correspond to the filters
             List<string> columnsNames = [];
             List<object> columnsValues = [];
 
+            // User will always be a filter
             columnsNames.Add("user_id");
             columnsValues.Add(MainVM.User.Id);
 
             if (StatsTypeIndex != 4)
-            {
+            {   // If filtered game type (not "all"), adds it to the lists
                 columnsNames.Add("game_type");
                 columnsValues.Add(StatsTypeIndex);
             }
 
             if (StatsDifficultyIndex != 3)
-            {
+            {   // If filtered difficulty (not "all"), adds it to the lists
                 columnsNames.Add("difficulty");
                 columnsValues.Add(StatsDifficultyIndex);
             }
 
+            // Creates the manager for the MySQL request
+            MySqlManager manager = new();
 
-            if(columnsNames.Count > 1)
-                rows = manager.GetTable("rounds").SelectRows(columnsNames.ToArray(), columnsValues.ToArray());
-            else
-                rows = manager.GetTable("rounds").SelectRows(columnsNames[0], columnsValues[0]);
+            if (columnsNames.Count > 1) // If more than one argument, pass array
+                rows = manager.GetTable("games").SelectRows(columnsNames.ToArray(), columnsValues.ToArray());
+            else // else pass just the user id column name and value
+                rows = manager.GetTable("games").SelectRows(columnsNames[0], columnsValues[0]);
 
-
+            // For each row (= game played)
             for(int j = rows.Count - 1; j >= 0; j--)
             { 
+                // row = current row
                 var row = rows[j];
-            
+                
+                // Create a grid that'll contain the informations about this game
                 Grid container = new();
 
+                // Creates 5 columns of equal width in this grid
                 for(int i = 0; i<5; i++)
                 {
                     ColumnDefinition col = new();
@@ -712,30 +644,36 @@ namespace Additionneur.ViewModels
                     container.ColumnDefinitions.Add(col);
                 }
 
+                // Stretch the grid to take all the available width
                 container.HorizontalAlignment = HorizontalAlignment.Stretch;
                     
-
+                // Textbox corresponding to the difficulty, in first column
                 TextBox diff = new();
-                diff.Text = (new[] { "Easy", "Normal", "Hard" })[(int) row["difficulty"]];
+                diff.Text = (new[] { "Easy", "Normal", "Hard" }) [(int) row["difficulty"]];
                 diff.SetValue(Grid.ColumnProperty, 0);
 
+                // Textbox corresponding to the max amount of rounds in this game, in second column
                 TextBox totRounds = new();
                 totRounds.Text = row["max_answers"].ToString();
                 totRounds.SetValue(Grid.ColumnProperty, 1);
 
+                // Textbox corresponding to the score, third column
                 TextBox score = new();
                 score.Text = row["correct_answers"].ToString();
                 score.SetValue(Grid.ColumnProperty, 2);
 
+                // Textbox corresponding to average good answers in %, fourth column
                 TextBox avg = new();
                 avg.Text = (((int) row["correct_answers"] * 100) / ((int) row["max_answers"]) ).ToString() + "%";
                 avg.SetValue(Grid.ColumnProperty, 3);
 
+                // Adds the texteboxes to the grid
                 container.Children.Add(diff);
                 container.Children.Add(totRounds);
                 container.Children.Add(score);
                 container.Children.Add(avg);
 
+                // Give all of the textboxes their common properties
                 foreach (TextBox t in container.Children)
                 {
                     t.FontFamily = new System.Windows.Media.FontFamily("Cascadia Code");
@@ -747,6 +685,7 @@ namespace Additionneur.ViewModels
                     t.Background = Brushes.Transparent;
                 }
 
+                // Adds the container to the List of played games
                 StatsList.Add(container);
             }
 
