@@ -53,7 +53,10 @@
                 </StackPanel.Background>
                 <TextBlock Text="{Binding Username}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center"/>
                 <TextBlock Text=" statistics:" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,20,0"/>
-                <TextBlock Text="amount of games" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Padding="10,0,0,0"/>
+                <TextBlock Text="Total games: " FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding TotalGames}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                <TextBlock Text="Average Score: " FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding AverageScore}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,20,0"/>
             </StackPanel>
             <Grid Grid.ColumnSpan="1" Grid.Row="1" Grid.Column="1" Margin="10,10,30,10">
                 <Grid.ColumnDefinitions>

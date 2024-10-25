@@ -28,10 +28,6 @@ namespace Additionneur.ViewModels
             return true;
         }
 
-        public virtual void GoToGameView()
-        {
-
-        }
     }
 
     public class RelayCommand : ICommand

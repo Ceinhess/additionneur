@@ -6,20 +6,18 @@
              xmlns:local="clr-namespace:Additionneur.UserControls.Game"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Grid Background="White">
+    <Grid Background="White" Height="721">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="467.396666666667"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="492.37"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="Bold" FontSize="36" FontFamily="Lucida Console" IsHitTestVisible="False" Margin="0,0,0,50"><Run Language="fr-fr" Text="COMPETITIVE CALCULATOR"/></TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -57,7 +55,7 @@
                     </ListBox>
                 </StackPanel>
             </Grid>
-            <Button Command="{Binding StartGame}" Content="Start" FontSize="24" FontFamily="Cascadia Code" Margin="0,50,0,0" Padding="10,10,10,10" Width="150" BorderBrush="{x:Null}">
+            <Button Command="{Binding StartGame}" Content="Start" FontSize="24" FontFamily="Cascadia Code" Margin="0,50,0,0" Padding="25,10,25,10" BorderBrush="{x:Null}" HorizontalAlignment="Center">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="White" Offset="0.517"/>
@@ -65,8 +63,8 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Background="{DynamicResource ButtonBackground2}" Command="{Binding GoToStatsMenu}" Content="Stats" Width="100" Height="40" Margin="0,20,0,0" FontSize="14" FontFamily="Cascadia Code" BorderBrush="{x:Null}">
-            </Button>
+            <Button Background="{DynamicResource ButtonBackground2}" Command="{Binding GoToStatsMenu}" Content="Stats" Margin="0,20,0,0" FontSize="14" FontFamily="Cascadia Code" BorderBrush="{x:Null}" Padding="25,10,25,10" HorizontalAlignment="Center"/>
+            <Button Background="{DynamicResource ButtonBackground2}" Command="{Binding GoToLoggingMenu}" Content="Back to logging" FontSize="14" FontFamily="Cascadia Code" BorderBrush="{x:Null}" Margin="0,40,0,0" HorizontalAlignment="Center" Padding="25,10,25,10"/>
         </StackPanel>
 
     </Grid>

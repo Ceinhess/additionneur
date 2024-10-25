@@ -26,6 +26,8 @@ namespace Additionneur.ViewModels
 
         public ICommand StartGame { get; }
 
+        public ICommand GoToLoggingMenu { get; }
+
         private bool isMenuVisible;
         private bool isGameVisible;
         private bool isEndVisible;
@@ -273,6 +275,9 @@ namespace Additionneur.ViewModels
         private ObservableCollection<Grid> statsList = [];
 
         private int averageScore;
+        private int totalGames;
+
+
 
         public ObservableCollection<Grid> StatsList
         {
@@ -305,7 +310,6 @@ namespace Additionneur.ViewModels
 
             }
         }
-
         public int StatsDifficultyIndex
         {
             get { return statsDifficultyIndex; }
@@ -324,10 +328,18 @@ namespace Additionneur.ViewModels
             set
             {
                 averageScore = value;
-                OnPropertyChanged("AverageScore"); 
+                OnPropertyChanged("AverageScore");
             }
         }
-
+        public int TotalGames
+        {
+            get { return totalGames; }
+            set
+            {
+                totalGames = value;
+                OnPropertyChanged("TotalGames");
+            }
+        }
 
         public GamePageVM()
         {
@@ -335,7 +347,8 @@ namespace Additionneur.ViewModels
             NewRound = new RelayCommand(o => newRound());
             RePlay = new RelayCommand(o => rePlay());
             GoToStatsMenu = new RelayCommand(o => goToStatsMenu());
-            GoToGameMenu = new RelayCommand(o=> goToGameMenu());
+            GoToGameMenu = new RelayCommand(o => goToGameMenu());
+            GoToLoggingMenu = new RelayCommand(o => goToLoggingMenu());
 
             GameTypeIndex = 0;
             Difficulty = 1;
@@ -662,6 +675,9 @@ namespace Additionneur.ViewModels
             List<string> columnsNames = [];
             List<object> columnsValues = [];
 
+            // Total score that will be used for average score calculation
+            int avgScore = 0;
+
             // User will always be a filter
             columnsNames.Add("user_id");
             columnsValues.Add(MainVM.User.Id);
@@ -729,8 +745,11 @@ namespace Additionneur.ViewModels
 
                 // Textbox corresponding to average good answers in %, fourth column
                 TextBox avg = new();
-                avg.Text = (((int) row["correct_answers"] * 100) / ((int) row["max_answers"]) ).ToString() + "%";
+                int avgGame = (((int)row["correct_answers"] * 100) / ((int)row["max_answers"]));
+                avg.Text = avgGame.ToString() + "%";
                 avg.SetValue(Grid.ColumnProperty, 4);
+
+                avgScore += avgGame;
 
                 // Adds the texteboxes to the grid
                 container.Children.Add(diff);
@@ -742,7 +761,7 @@ namespace Additionneur.ViewModels
                 // Give all of the textboxes their common properties
                 foreach (TextBox t in container.Children)
                 {
-                    t.FontFamily = new System.Windows.Media.FontFamily("Cascadia Code");
+                    t.FontFamily = new FontFamily("Cascadia Code");
                     t.FontSize = 16;
                     t.VerticalAlignment = VerticalAlignment.Center;
                     t.Margin = new Thickness(25, 0, 0, 0);
@@ -755,10 +774,10 @@ namespace Additionneur.ViewModels
                 StatsList.Add(container);
             }
 
-            
+            // Update total game and average score for the active filters
+            TotalGames = rows.Count;
 
-
-
+            AverageScore = rows.Count > 0 ? avgScore / rows.Count : 0;
 
         }
 
@@ -768,6 +787,9 @@ namespace Additionneur.ViewModels
             MenuVisibility = Visibility.Visible;
         }
 
-
+        private void goToLoggingMenu()
+        {
+            MainVM.GoToLoggingView();
+        }
     }
 }

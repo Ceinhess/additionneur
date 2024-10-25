@@ -37,9 +37,14 @@ namespace Additionneur.ViewModels
             
         }
 
-        public override void GoToGameView()
+        public void GoToGameView()
         {
             ActiveView = new GamePage();
+        }
+
+        public void GoToLoggingView()
+        {
+            ActiveView = new LoggingPage();
         }
 
         private void ChangeActiveView(object sender)
