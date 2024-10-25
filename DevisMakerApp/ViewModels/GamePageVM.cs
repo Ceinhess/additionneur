@@ -467,10 +467,6 @@ namespace Additionneur.ViewModels
             // will always be 2 for divisions
             toGuess = random.Next(3);
 
-            // Init the change of focus to the "to guess" field
-            ChangeFocus = false;
-            FocusedField = (new[] { "ValueOneField", "ValueTwoField", "ResultField" })[toGuess];
-
             // generates the round depending on the type of game
             switch (GameTypeIndex)
             {
@@ -627,8 +623,6 @@ namespace Additionneur.ViewModels
 
             //If difficulty isn't easy, allow negative values
             int minFirstValue = Difficulty == 0 ? 10 : -maxFirstValue;
-
-            FocusedField = "ValueField";
 
             ValueOne = random.Next(minFirstValue, maxFirstValue);
 

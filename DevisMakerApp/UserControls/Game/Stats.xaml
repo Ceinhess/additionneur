@@ -51,10 +51,10 @@
                 <StackPanel.Background>
                     <SolidColorBrush Color="{DynamicResource BleuGris}"/>
                 </StackPanel.Background>
-                <TextBlock Text="{Binding Username}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center"/>
-                <TextBlock Text=" statistics:" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                <TextBlock Text="{Binding Username}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                <TextBlock Text="'s statistics:" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,30,0"/>
                 <TextBlock Text="Total games: " FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding TotalGames}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                <TextBlock Text="{Binding TotalGames}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,30,0"/>
                 <TextBlock Text="Average Score: " FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding AverageScore}" FontFamily="Cascadia Code" FontSize="16" VerticalAlignment="Center" Margin="0,0,20,0"/>
             </StackPanel>
