@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 21 oct. 2024 à 11:12
+-- Généré le : ven. 25 oct. 2024 à 14:24
 -- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Version de PHP : 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `games`
+--
+
+CREATE TABLE `games` (
+  `user_id` int(11) NOT NULL,
+  `game_type` int(3) NOT NULL COMMENT '0 = sum, 1 = diff, 2 = mult, 3 = divisions',
+  `difficulty` int(3) NOT NULL COMMENT '0 = easy, 1 = normal, 2 = hard',
+  `correct_answers` int(4) NOT NULL,
+  `max_answers` int(4) NOT NULL,
+  `round_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -32,25 +44,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `users` (
   `mail` varchar(255) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `surname` varchar(128) NOT NULL,
+  `username` varchar(128) NOT NULL,
   `password` varchar(255) NOT NULL,
   `password_salt` varchar(128) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `users`
---
-
---
 -- Index pour les tables déchargées
 --
 
 --
--- Index pour la table `rounds`
+-- Index pour la table `games`
 --
-ALTER TABLE `rounds`
+ALTER TABLE `games`
   ADD PRIMARY KEY (`round_id`);
 
 --
@@ -65,20 +72,18 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT pour la table `rounds`
+-- AUTO_INCREMENT pour la table `games`
 --
-ALTER TABLE `rounds`
-  MODIFY `round_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `games`
+  MODIFY `round_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
