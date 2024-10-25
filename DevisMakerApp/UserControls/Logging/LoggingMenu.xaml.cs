@@ -25,20 +25,5 @@ namespace Additionneur.UserControls.Logging
             InitializeComponent();
         }
 
-
-        private void loginBTN_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void registerBTN_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        public void Resize(double w, double h)
-        {
-
-        }
     }
 }

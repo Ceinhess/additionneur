@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Additionneur.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +24,17 @@ namespace Additionneur.UserControls.Game
     {
         public Game()
         {
+
             InitializeComponent();
+        }
+
+        private void ChangeFocus(object sender, TextChangedEventArgs e)
+        {
+            if (((TextBox)sender).Text == "")
+            {
+                ((TextBox)sender).Focus();
+                Keyboard.Focus((TextBox)sender);
+            }
         }
     }
 }

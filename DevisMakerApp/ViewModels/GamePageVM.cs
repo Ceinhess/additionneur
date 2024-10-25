@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -121,15 +122,13 @@ namespace Additionneur.ViewModels
         private string roundsText;
         private string operationText;
 
-        private int valueOne;
-        private int valueTwo;
-        private int result;
+        private int? valueOne;
+        private int? valueTwo;
+        private int? result;
 
         private bool isValueOneLocked;
         private bool isValueTwoLocked;
         private bool isResultLocked;
-
-        private string focusedField;
 
         private Color backgroundGradientColor = Colors.White;
 
@@ -224,7 +223,7 @@ namespace Additionneur.ViewModels
             }
         }
 
-        public int ValueOne
+        public int? ValueOne
         {
             get { return valueOne; }
             set
@@ -233,7 +232,7 @@ namespace Additionneur.ViewModels
                 OnPropertyChanged("ValueOne");
             }
         }
-        public int ValueTwo
+        public int? ValueTwo
         {
             get { return valueTwo; }
             set
@@ -242,23 +241,13 @@ namespace Additionneur.ViewModels
                 OnPropertyChanged("ValueTwo");
             }
         }
-        public int Result
+        public int? Result
         {
             get { return result; }
             set
             {
                 result = value;
                 OnPropertyChanged("Result");
-            }
-        }
-
-        public string FocusedField
-        {
-            get { return focusedField; }
-            set
-            {
-                focusedField = value;
-                OnPropertyChanged("FocusedField");
             }
         }
 
@@ -356,6 +345,10 @@ namespace Additionneur.ViewModels
             CurrentRound = 0;
             Score = 0;
 
+            ValueOne = 0;
+            ValueTwo = 0;
+            Result = 0;
+
 
             StatsVisibility = Visibility.Collapsed;
             EndVisibility = Visibility.Collapsed;
@@ -421,43 +414,32 @@ namespace Additionneur.ViewModels
             //If not the first round, checks the answer of the last one depending on the game type
             if (currentRound != 1)
             {
+                bool won = false;
                 switch(GameTypeIndex)
-                {
+                {   // set won to true if the answer is correct for the game type
                     case 0: // sum
-                        if (ValueOne + ValueTwo == Result) 
-                        {   // If good answer, increment score and set green background effect (red if wrong answer). Same for the 3 next cases.
-                            Score++;
-                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 0.5f };
-                        }
-                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
+                        if (ValueOne + ValueTwo == Result) won = true;
                         break;
                     case 1: // difference
-                        if (ValueOne - ValueTwo == Result)
-                        {
-                            Score++;
-                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 0.5f };
-                        }
-                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
+                        if (ValueOne - ValueTwo == Result) won = true;
                         break;
                     case 2: // multiplication
-                        if (ValueOne * ValueTwo == Result)
-                        {
-                            Score++;
-                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 0.5f};
-                            
-                        }
-                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
+                        if (ValueOne * ValueTwo == Result) won = true;
                         break;
                     case 3: // division
-                        if (ValueOne / ValueTwo == Result)
-                        {
-                            Score++;
-                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 1f };
-                        }
-                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
+                        if (ValueOne / ValueTwo == Result) won = true;
                         break;
                 }
 
+                // If good answer, increment score and set green background effect (red if wrong answer).
+                if(won)
+                {
+                    Score++;
+                    BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 0.5f };
+                }
+                else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
+
+                // begins the fading background animation
                 fadeBackground(currentRound);
             }
 
@@ -485,6 +467,8 @@ namespace Additionneur.ViewModels
             // will always be 2 for divisions
             toGuess = random.Next(3);
 
+            // Init the change of focus to the "to guess" field
+            ChangeFocus = false;
             FocusedField = (new[] { "ValueOneField", "ValueTwoField", "ResultField" })[toGuess];
 
             // generates the round depending on the type of game
@@ -501,6 +485,20 @@ namespace Additionneur.ViewModels
                     break;
                 case 3:
                     makeDivisionRound();
+                    break;
+            }
+            
+            // Changes the value of the field to guess at the end to set the focus on it.
+            switch(toGuess)
+            {
+                case 0:
+                    ValueOne = null;
+                    break;
+                case 1: 
+                    ValueTwo = null;
+                    break;
+                case 2:
+                    Result = null;
                     break;
             }
         }
@@ -623,6 +621,7 @@ namespace Additionneur.ViewModels
         }
         private void makeDivisionRound()
         {
+            toGuess = 2;
 
             int maxFirstValue = (int)Math.Pow(10, 2 + Difficulty);
 
@@ -633,7 +632,7 @@ namespace Additionneur.ViewModels
 
             ValueOne = random.Next(minFirstValue, maxFirstValue);
 
-            ValueTwo = ValueOne > 0 ? random.Next(-(ValueOne / 2), ValueOne / 2) : random.Next((ValueOne / 2), -ValueOne / 2);
+            ValueTwo = ValueOne > 0 ? random.Next(-((int) ValueOne / 2), (int) ValueOne / 2) : random.Next(((int) ValueOne / 2), -(int) ValueOne / 2);
 
             IsResultLocked = false;
 

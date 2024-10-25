@@ -28,9 +28,9 @@
             </StackPanel.Background>
             <Button x:Name="BackBTN" Command="{Binding ReturnToChoice}" Content="x" BorderThickness="3,0,0,0" IsCancel="True" FontFamily="Wingdings" Height="18" Width="28" FontSize="16" IsTabStop="False" Margin="25,25,0,0" HorizontalAlignment="Left"/>
             <Label Content="Register" Height="52" FontSize="36" FontFamily="Cascadia Code" HorizontalAlignment="Center" Margin="0,25,0,0"/>
-            <Label x:Name="ErrorLabel" Content="{Binding RegMessageText}" Foreground="{Binding RegMessageColor}" FontSize="14" FontWeight="Bold" Margin="0,15,0,15"/>
+            <Label x:Name="ErrorLabel" Content="{Binding RegMessageText}" Foreground="{Binding RegMessageColor}" FontSize="14" FontWeight="Bold" Margin="25,15,25,15"/>
             <Label Content="Username" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
-            <TextBox x:Name="UsernameField" Text="{Binding RegUsername}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="1" AutomationProperties.IsRequiredForForm="True" Margin="25,0,25,0"/>
+            <TextBox x:Name="UsernameField" Text="{Binding RegUsername}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="1" AutomationProperties.IsRequiredForForm="True" Margin="25,0,25,0" IsVisibleChanged="UsernameField_IsVisibleChanged"/>
             <Label Content="Mail" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
             <TextBox x:Name="MailField" Text="{Binding RegMail}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Adresse e-mail" TabIndex="2" AutomationProperties.IsRequiredForForm="True" Margin="25,0,25,0"/>
             <Label Content="Password" FontFamily="Cascadia Code" Margin="25,0,25,0"/>

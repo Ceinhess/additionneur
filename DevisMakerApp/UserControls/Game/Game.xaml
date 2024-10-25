@@ -15,25 +15,37 @@
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="207.186666666667"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="440"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1" Grid.Row="1" UseLayoutRounding="False" MinWidth="440" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            
             <StackPanel Orientation="Horizontal" Width="440">
                 <TextBlock TextWrapping="Wrap" Text="{Binding RoundsText}" FontSize="16" FlowDirection="RightToLeft" FontFamily="Cascadia Code" Width="120" Margin="90,0,20,0"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding ScoreText}" Width="120" FontSize="16" FontFamily="Cascadia Code"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,50,0,0" Width="440" FocusManager.FocusedElement="{Binding ElementName=FocusedField}">
-                <TextBox x:Name="ValueOneField" IsReadOnly="{Binding IsValueOneLocked}" Text="{Binding ValueOne}" TextWrapping="Wrap" Width="102" Height="26" FontSize="20" FontFamily="Cascadia Code" TabIndex="0" Background="White" CaretBrush="#FF0F00CC" AutomationProperties.IsRequiredForForm="True" Margin="21,0,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="0,50,0,0" Width="440">
+                <StackPanel.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ChangeFocus}" Value="True">
+                                <Setter Property="FocusManager.FocusedElement" Value="{Binding FocusedField}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+
+                <TextBox x:Name="ValueOneField"  IsReadOnly="{Binding IsValueOneLocked}" Text="{Binding ValueOne, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="102" Height="26" FontSize="20" FontFamily="Cascadia Code" TabIndex="0" Background="White" CaretBrush="#FF0F00CC" AutomationProperties.IsRequiredForForm="True" Margin="21,0,0,0" TextChanged="ChangeFocus"/>
                 <Label Content="{Binding OperationText}" FontSize="24" Width="26" Height="48" Margin="10,0,0,0"/>
-                <TextBox x:Name="ValueTwoField" IsReadOnly="{Binding IsValueTwoLocked}" Text="{Binding ValueTwo}" TextWrapping="Wrap" FontSize="20" FontFamily="Cascadia Code" Height="26" TabIndex="1" AutomationProperties.IsRequiredForForm="True" Width="102" Margin="10,0,0,0"/>
+                <TextBox x:Name="ValueTwoField" IsReadOnly="{Binding IsValueTwoLocked}" Text="{Binding ValueTwo, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" FontSize="20" FontFamily="Cascadia Code" Height="26" TabIndex="1" AutomationProperties.IsRequiredForForm="True" Width="102" Margin="10,0,0,0" TextChanged="ChangeFocus"/>
                 <Label Content="=" FontSize="24" Width="26" Height="48" Margin="10,0,0,0"/>
-                <TextBox x:Name="ResultField" IsReadOnly="{Binding IsResultLocked}" Text="{Binding Result}" TextWrapping="Wrap" FontSize="20" FontFamily="Cascadia Code" Height="26" Width="102" TabIndex="2" AutomationProperties.IsRequiredForForm="True" Margin="10,0,0,0"/>
+                <TextBox x:Name="ResultField" IsReadOnly="{Binding IsResultLocked}" Text="{Binding Result, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" FontSize="20" FontFamily="Cascadia Code" Height="26" Width="102" TabIndex="2" AutomationProperties.IsRequiredForForm="True" Margin="10,0,0,0" TextChanged="ChangeFocus"/>
             </StackPanel>
             <Button Command="{Binding NewRound}" Content="Next" FontFamily="Cascadia Code" IsTabStop="False" IsDefault="True" Background="{DynamicResource ButtonBackground1}" Margin="0,50,0,0" HorizontalAlignment="Center" BorderBrush="{x:Null}" Padding="25,10,25,10" FontSize="16"/>
         </StackPanel>

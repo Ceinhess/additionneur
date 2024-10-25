@@ -10,16 +10,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="121.433333333333"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Width="400">
+        <StackPanel Grid.Column="1" Grid.Row="1" Width="400">
             <StackPanel.Effect>
                 <DropShadowEffect ShadowDepth="6" Opacity="0.25" BlurRadius="15"/>
             </StackPanel.Effect>
@@ -28,11 +26,11 @@
             </StackPanel.Background>
             <Button x:Name="BackBTN" Command="{Binding ReturnToChoice}" Content="x" BorderThickness="3,0,0,0" IsCancel="True" FontFamily="Wingdings" Height="18" Width="28" FontSize="16" IsTabStop="False" Margin="25,25,0,0" HorizontalAlignment="Left"/>
             <Label Content="Log In" FontSize="36" Margin="0,25,0,0" HorizontalAlignment="Center" FontFamily="Cascadia Code SemiBold"/>
-            <Label x:Name="ErrorLabel" Background="#00FDFDFD" Foreground="{Binding LogMessageColor}" FontSize="16" FontWeight="Bold" Margin="0,15,0,15"/>
+            <Label x:Name="ErrorLabel" Content="{Binding LogMessageText}" Background="#00FDFDFD" Foreground="{Binding LogMessageColor}" FontSize="16" FontWeight="Bold" Margin="25,15,25,15"/>
             <Label Content="Mail" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
-            <TextBox x:Name="MailField" Text="{Binding LogMail}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="0" Margin="25,0,25,0"/>
+            <TextBox x:Name="MailField" Text="{Binding LogMail}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Mail" TabIndex="0" Margin="25,0,25,0" Cursor="" IsVisibleChanged="MailField_IsVisibleChanged"/>
             <Label Content="Password" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
-            <PasswordBox x:Name="PasswordField" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="1" PasswordChanged="PasswordField_PasswordChanged" Margin="25,0,25,0"/>
+            <PasswordBox x:Name="PasswordField" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Password" TabIndex="1" PasswordChanged="PasswordField_PasswordChanged" Margin="25,0,25,0"/>
             <Button x:Name="SubmitLoginBTN" Command="{Binding SubmitLog}" Content="Log In" FontSize="20" UseLayoutRounding="True" BorderBrush="{x:Null}" IsDefault="True" TabIndex="2" Margin="0,40,0,50" Background="{DynamicResource ButtonBackground1}" Padding="25,15,25,15" FontFamily="Cascadia Code" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>

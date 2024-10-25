@@ -9,12 +9,12 @@
     <Grid Background="White" Height="721">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="467.396666666667"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="492.37"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="1" Grid.Column="1">

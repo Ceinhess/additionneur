@@ -1,6 +1,8 @@
-﻿using Additionneur.ViewModels;
+﻿using Additionneur.UserControls.Logging;
+using Additionneur.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,5 +32,9 @@ namespace Additionneur.Views
 
         }
 
+        private void LoginMenu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
     }
 }

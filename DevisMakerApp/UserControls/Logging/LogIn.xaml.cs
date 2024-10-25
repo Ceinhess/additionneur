@@ -33,65 +33,24 @@ namespace Additionneur.UserControls.Logging
             InitializeComponent();
         }
 
-        private void BackBTN_Click(object sender, RoutedEventArgs e)
-        {
-            Clear();
-            Visibility = Visibility.Collapsed;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            MySqlManager manager = new();
-
-            //var rows = manager.GetTable("nvl_table").SelectRows(["id", "col1"], [10, 42]);
-            var row = manager.GetTable("users").SelectRow("mail", MailField.Text);
-
-            if(row.Count == 0)
-            {
-                ErrorLabel.Content = "Utilisateur introuvable";
-                return;
-            }
-
-
-            // Converts the password+salt to bytes
-            byte[] saltedPassword = Encoding.ASCII.GetBytes(PasswordField.Password + row["password_salt"]);
-
-            byte[] hashedPassword = SHA256.Create().ComputeHash(saltedPassword);
-
-            //Encrypts it and converts it to string
-            string password = Convert.ToBase64String(hashedPassword);
-
-            if(password != (string)row["password"])
-            {
-                ErrorLabel.Content = "Mot de passe incorrect.";
-                return;
-            }
-
-            ErrorLabel.Content = "Mot de passe correct !";
-
-        }
-
-        private void Clear()
-        {
-            MailField.Text = "";
-            PasswordField.Password = "";
-            ErrorLabel.Content = "";
-        }
-
-        public void Resize(double w, double h)
-        {
-            this.Width = w;
-            this.Height = h;
-
-
-        }
-
         private void PasswordField_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (this.DataContext != null)
             {
                 ((LoggingPageVM)this.DataContext).LogPassword = ((PasswordBox)sender).Password;
+            }
+        }
+
+        private void MailField_Loaded(object sender, RoutedEventArgs e)
+        {
+            Keyboard.Focus(MailField);
+        }
+
+        private void MailField_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue == true)
+            {
+                Keyboard.Focus(MailField);
             }
         }
     }

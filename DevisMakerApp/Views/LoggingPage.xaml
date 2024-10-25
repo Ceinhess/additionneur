@@ -18,8 +18,8 @@
 
 
         <Logging:LoggingMenu Grid.Row="1" x:Name="LoggingMenu" Visibility="{Binding LoggingMenuVisibility}" Grid.Column="1"/>
-        <Logging:LogIn Grid.Row ="1" x:Name="LoginMenu" Visibility="{Binding LoginMenuVisibility}" Grid.Column="1"/>
-        <Logging:Register Grid.Row="1" x:Name="RegisterMenu" Visibility="{Binding RegisterMenuVisibility}" Grid.Column="1"/>
+        <Logging:LogIn Grid.Row ="1" x:Name="LoginMenu" Visibility="{Binding LoginMenuVisibility}" Grid.Column="1" IsVisibleChanged="LoginMenu_IsVisibleChanged"/>
+        <Logging:Register Grid.Row="1" x:Name="RegisterMenu" Visibility="{Binding RegisterMenuVisibility}" Grid.Column="1" d:IsHidden="True"/>
 
 
     </Grid>

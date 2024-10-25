@@ -31,23 +31,6 @@ namespace Additionneur.UserControls.Logging
             InitializeComponent();
         }
 
-        async private void ReturnToMenu()
-        {
-            
-        }
-
-        private void Clear()
-        {
-        }
-
-        private void BackBTN_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        public void Resize(double w, double h)
-        {
-        }
-
         private void RegPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if(this.DataContext != null)
@@ -61,6 +44,14 @@ namespace Additionneur.UserControls.Logging
             if (this.DataContext != null)
             {
                 ((LoggingPageVM)this.DataContext).RegPasswordVerify = ((PasswordBox)sender).Password;
+            }
+        }
+
+        private void UsernameField_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue == true)
+            {
+                Keyboard.Focus(UsernameField);
             }
         }
     }
