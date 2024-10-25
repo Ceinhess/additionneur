@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DBCONFIG>
+	<!-- You can change these properties to connect to your db.
+	     You can initialize the DB with the sql file in the root of this project,
+		 you will still need to create a user for the base though.-->
 	<server>
 		localhost
 	</server>
@@ -12,6 +15,8 @@
 	<password>
 		additionneur
 	</password>
+	
+	<!-- You should (probably) not edit this out. -->
 	<parameters>
 		Allow User Variables=true
 	</parameters>

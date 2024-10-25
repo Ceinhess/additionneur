@@ -196,10 +196,6 @@ namespace Additionneur.ViewModels
             
 
             Clear();
-
-            LogMail = "maximegonc@gmail.com";
-            LogPassword = "MdpTest";
-
         }
 
         // ==========[ NAVIGATION
