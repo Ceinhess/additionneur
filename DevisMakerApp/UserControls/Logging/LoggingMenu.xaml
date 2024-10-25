@@ -10,29 +10,25 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1">
-            <Label Content="Competitive Calculator" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,0,50"/>
-            <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
-                <Button x:Name="RegisterBTN" Command="{Binding OpenReg}" Content="Inscription" FontSize="20" BorderThickness="0,0,0,0" FontFamily="Microsoft YaHei Light" IsTabStop="False" Height="62" Width="156">
-                    <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0.517"/>
-                            <GradientStop Color="#FFCBFFE6" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
-                </Button>
-                <Button Background="{DynamicResource ButtonBackground1}" x:Name="LoginBTN" Command="{Binding OpenLog}" Content="Connexion" Height="62" FontSize="20" BorderThickness="0,0,0,0" FontFamily="Microsoft YaHei UI Light" Width="160" IsTabStop="False" Margin="100,0,0,0">
-                </Button>
-            </StackPanel>
+        <StackPanel Grid.RowSpan="1" Grid.Column="1" Grid.Row="1">
+            <StackPanel.Effect>
+                <DropShadowEffect ShadowDepth="6" Opacity="0.25" BlurRadius="15"/>
+            </StackPanel.Effect>
+            <StackPanel.Background>
+                <SolidColorBrush Color="{DynamicResource BleuGris}"/>
+            </StackPanel.Background>
+            <Label Content="Competitive Calculator" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="50,50,50,50" FontFamily="Cascadia Code SemiBold"/>
+            <Grid Margin="50,50,50,50">
+                <Button x:Name="RegisterBTN" Command="{Binding OpenReg}" Content="Register" FontSize="20" BorderThickness="0,0,0,0" FontFamily="Microsoft YaHei Light" IsTabStop="False" Background="{DynamicResource ButtonBackground1}" HorizontalAlignment="Left" Padding="25,15,25,15"/>
+                <Button Background="{DynamicResource ButtonBackground1}" x:Name="LoginBTN" Command="{Binding OpenLog}" Content="Log In" FontSize="20" BorderThickness="0,0,0,0" FontFamily="Microsoft YaHei UI Light" IsTabStop="False" HorizontalAlignment="Right" Padding="25,15,25,15"/>
+            </Grid>
         </StackPanel>
 
     </Grid>

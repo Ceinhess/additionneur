@@ -30,6 +30,12 @@ namespace Additionneur
 
         }
 
-        
+        private void MainWindowFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+    {
+                e.Cancel = true;
+            }
+        }
     }
 }

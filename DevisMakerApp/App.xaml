@@ -14,5 +14,7 @@
             <GradientStop Color="#FFCBFFE6" Offset="1"/>
             <GradientStop Color="#FFCBDCFF" Offset="0.993"/>
         </LinearGradientBrush>
+        <Color x:Key="BleuGris">#FFEDF3F3</Color>
+        <Color x:Key="Fond">#FFEDF3F3</Color>
     </Application.Resources>
 </Application>

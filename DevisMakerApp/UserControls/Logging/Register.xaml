@@ -8,10 +8,10 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid Background="#FFFCFFFF">
         <Grid.RowDefinitions>
-            <RowDefinition Height="209*"/>
+            <RowDefinition/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="158*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -19,19 +19,25 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="BackBTN" Command="{Binding ReturnToChoice}" Content="x" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="3,0,0,0" IsCancel="True" FontFamily="Wingdings" Height="18" Width="28" FontSize="16" Margin="10,10,0,0" IsTabStop="False"/>
-        <StackPanel Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="470" Grid.Row="1" CanVerticallyScroll="True">
-            <Label Content="Inscription" Height="52" FontSize="24" FontFamily="Cascadia Code" HorizontalAlignment="Center"/>
-            <Label x:Name="ErrorLabel" Content="{Binding RegMessageText}" Foreground="{Binding RegMessageColor}" FontSize="14" FontWeight="Bold"/>
-            <Label Content="Username"/>
-            <TextBox x:Name="UsernameField" Text="{Binding RegUsername}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="1" AutomationProperties.IsRequiredForForm="True"/>
-            <Label Content="Mail"/>
-            <TextBox x:Name="MailField" Text="{Binding RegMail}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Adresse e-mail" TabIndex="2" AutomationProperties.IsRequiredForForm="True"/>
-            <Label Content="Password"/>
-            <PasswordBox x:Name="PasswordField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordBox_PasswordChanged"/>
-            <Label Content="Verify password"/>
-            <PasswordBox x:Name="PasswordVerifyField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordVerifyBox_PasswordChanged"/>
-            <Button x:Name="SubmitRegisterButton" Command="{Binding SubmitReg}" Content="Valider" FontSize="20" UseLayoutRounding="True" BorderBrush="#06707070" IsEnabled="{Binding IsRegBtnEnabled}" TabIndex="5" Margin="0,25,0,0" Background="{DynamicResource ButtonBackground1}" FontFamily="Cascadia Code" HorizontalAlignment="Center" Padding="15,10,15,10"/>
+        <StackPanel Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="400" Grid.Row="1" CanVerticallyScroll="True">
+            <StackPanel.Effect>
+                <DropShadowEffect ShadowDepth="6" Opacity="0.25" BlurRadius="15"/>
+            </StackPanel.Effect>
+            <StackPanel.Background>
+                <SolidColorBrush Color="{DynamicResource BleuGris}"/>
+            </StackPanel.Background>
+            <Button x:Name="BackBTN" Command="{Binding ReturnToChoice}" Content="x" BorderThickness="3,0,0,0" IsCancel="True" FontFamily="Wingdings" Height="18" Width="28" FontSize="16" IsTabStop="False" Margin="25,25,0,0" HorizontalAlignment="Left"/>
+            <Label Content="Register" Height="52" FontSize="36" FontFamily="Cascadia Code" HorizontalAlignment="Center" Margin="0,25,0,0"/>
+            <Label x:Name="ErrorLabel" Content="{Binding RegMessageText}" Foreground="{Binding RegMessageColor}" FontSize="14" FontWeight="Bold" Margin="0,15,0,15"/>
+            <Label Content="Username" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
+            <TextBox x:Name="UsernameField" Text="{Binding RegUsername}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Prenom" TabIndex="1" AutomationProperties.IsRequiredForForm="True" Margin="25,0,25,0"/>
+            <Label Content="Mail" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
+            <TextBox x:Name="MailField" Text="{Binding RegMail}" TextWrapping="Wrap" FontSize="18" BorderThickness="0,0,0,1" FontFamily="Calibri" AutomationProperties.HelpText="Adresse e-mail" TabIndex="2" AutomationProperties.IsRequiredForForm="True" Margin="25,0,25,0"/>
+            <Label Content="Password" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
+            <PasswordBox x:Name="PasswordField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordBox_PasswordChanged" Margin="25,0,25,0"/>
+            <Label Content="Verify password" FontFamily="Cascadia Code" Margin="25,0,25,0"/>
+            <PasswordBox x:Name="PasswordVerifyField" FontSize="18" BorderThickness="0,0,0,2" FontFamily="Calibri" AutomationProperties.HelpText="Mot de passe" TabIndex="4" PasswordChanged="RegPasswordVerifyBox_PasswordChanged" Margin="25,0,25,0"/>
+            <Button x:Name="SubmitRegisterButton" Command="{Binding SubmitReg}" Content="Register" FontSize="20" UseLayoutRounding="True" BorderBrush="#06707070" IsEnabled="{Binding IsRegBtnEnabled}" TabIndex="5" Margin="0,25,0,50" Background="{DynamicResource ButtonBackground1}" FontFamily="Cascadia Code" HorizontalAlignment="Center" Padding="15,10,15,10" IsDefault="True"/>
 
 
         </StackPanel>

@@ -10,17 +10,21 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="1" Content="Finished !" Margin="146,72,146,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.CanContentScroll="True" FontSize="36" FontFamily="Cascadia Code" Height="58" VerticalAlignment="Top"/>
-        <Button Grid.Column="1" Command="{Binding RePlay}" Content="Replay" Margin="198,144,198,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="36" Background="{DynamicResource ButtonBackground1}" BorderBrush="{x:Null}"/>
-        <TextBlock Grid.Column="1" Margin="171,24,171,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding ScoreText}" VerticalAlignment="Top" Height="37" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.Column="1" Grid.RowSpan="1" Grid.Row="1" Background="#FFEDF3F3">
+            <StackPanel.Effect>
+                <DropShadowEffect ShadowDepth="6" Opacity="0.25" BlurRadius="15"/>
+            </StackPanel.Effect>
+            <Label Grid.Column="1" Content="Finished !" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.CanContentScroll="True" FontSize="36" FontFamily="Cascadia Code" HorizontalAlignment="Center" Margin="50,50,50,25"/>
+            <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="{Binding ScoreText}" Height="37" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="50,25,50,25" FontSize="22" FontFamily="Cascadia Code"/>
+            <Button Grid.Column="1" Command="{Binding RePlay}" Content="Replay" Grid.Row="2" Grid.ColumnSpan="2" Background="{DynamicResource ButtonBackground1}" BorderBrush="{x:Null}" HorizontalAlignment="Center" Padding="25,10,25,10" FontFamily="Cascadia Code" FontSize="24" Margin="0,25,0,50"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

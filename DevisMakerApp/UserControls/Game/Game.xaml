@@ -6,7 +6,13 @@
              xmlns:local="clr-namespace:Additionneur.UserControls.Game"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Grid Background="White">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="{Binding BackgroundGradientColor}" Offset="1"/>
+                <GradientStop Color="White" Offset="0.533"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
@@ -31,7 +37,7 @@
                 <Label Content="=" FontSize="24" Width="26" Height="48" Margin="10,0,0,0"/>
                 <TextBox x:Name="ResultField" IsReadOnly="{Binding IsResultLocked}" Text="{Binding Result}" TextWrapping="Wrap" FontSize="20" FontFamily="Cascadia Code" Height="26" Width="102" TabIndex="2" AutomationProperties.IsRequiredForForm="True" Margin="10,0,0,0"/>
             </StackPanel>
-            <Button Command="{Binding NewRound}" Content="Next" FontFamily="Cascadia Code" IsTabStop="False" IsDefault="True" Background="{DynamicResource ButtonBackground1}" Margin="0,50,0,0" HorizontalAlignment="Center" BorderBrush="{x:Null}" Padding="15,5,15,5"/>
+            <Button Command="{Binding NewRound}" Content="Next" FontFamily="Cascadia Code" IsTabStop="False" IsDefault="True" Background="{DynamicResource ButtonBackground1}" Margin="0,50,0,0" HorizontalAlignment="Center" BorderBrush="{x:Null}" Padding="25,10,25,10" FontSize="16"/>
         </StackPanel>
 
     </Grid>

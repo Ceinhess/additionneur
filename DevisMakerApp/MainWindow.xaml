@@ -7,5 +7,5 @@
         xmlns:controls="clr-namespace:Additionneur.UserControls.Logging"
         mc:Ignorable="d"
         Title="MainWindow" MinWidth="720" MinHeight="480" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" WindowStyle="ThreeDBorderWindow">
-    <Frame x:Name="MainWindowFrame" Grid.RowSpan="2" Content="{Binding ActiveView}" IsTabStop="False" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+    <Frame x:Name="MainWindowFrame" Grid.RowSpan="2" Content="{Binding ActiveView}" IsTabStop="False" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Navigating="MainWindowFrame_Navigating"/>
 </Window>

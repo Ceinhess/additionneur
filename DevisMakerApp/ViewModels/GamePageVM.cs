@@ -129,10 +129,22 @@ namespace Additionneur.ViewModels
 
         private string focusedField;
 
+        private Color backgroundGradientColor = Colors.White;
+
         public ICommand NewRound { get; }
         public ICommand RePlay { get; }
 
         private int toGuess;
+
+        public Color BackgroundGradientColor
+        {
+            get { return backgroundGradientColor; }
+            set
+            {
+                backgroundGradientColor = value;
+                OnPropertyChanged("BackgroundGradientColor");
+            }
+        }
 
         public bool IsValueOneLocked
         {
@@ -365,7 +377,7 @@ namespace Additionneur.ViewModels
             EndVisibility = Visibility.Visible;
 
             // updates the score text
-            ScoreText = $"Final score: {Score}/{currentRound}";
+            ScoreText = $"Final score: {Score}/{currentRound-1}";
             
             // upload the round stats to the DB
             MySqlManager manager = new();
@@ -374,6 +386,7 @@ namespace Additionneur.ViewModels
             {
                 {"user_id", MainVM.User.Id},
                 {"difficulty", Difficulty },
+                {"game_type", GameTypeIndex },
                 {"correct_answers", Score },
                 {"max_answers", maxRounds }
             });
@@ -389,36 +402,60 @@ namespace Additionneur.ViewModels
 
         private void newRound()
         {
+            // Updates current round
+            currentRound++;
+
             //If not the first round, checks the answer of the last one depending on the game type
-            if (currentRound != 0)
+            if (currentRound != 1)
             {
                 switch(GameTypeIndex)
                 {
                     case 0: // sum
-                        if (ValueOne + ValueTwo == Result) Score++;
+                        if (ValueOne + ValueTwo == Result) 
+                        {   // If good answer, increment score and set green background effect (red if wrong answer). Same for the 3 next cases.
+                            Score++;
+                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 0.5f };
+                        }
+                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
                         break;
                     case 1: // difference
-                        if (ValueOne - ValueTwo == Result) Score++;
+                        if (ValueOne - ValueTwo == Result)
+                        {
+                            Score++;
+                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 0.5f };
+                        }
+                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
                         break;
                     case 2: // multiplication
-                        if (ValueOne * ValueTwo == Result) Score++;
+                        if (ValueOne * ValueTwo == Result)
+                        {
+                            Score++;
+                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 0.5f};
+                            
+                        }
+                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
                         break;
                     case 3: // division
-                        if (ValueOne / ValueTwo == Result) Score++;
+                        if (ValueOne / ValueTwo == Result)
+                        {
+                            Score++;
+                            BackgroundGradientColor = new Color() { ScG = 0.7f, ScR = 0.2f, ScB = 0.4f, ScA = 1f };
+                        }
+                        else BackgroundGradientColor = new Color() { ScG = 0.22f, ScR = 0.7f, ScB = 0.2f, ScA = 0.5f };
                         break;
                 }
+
+                fadeBackground(currentRound);
             }
 
             // If last round was THE last round, do not generate a new one and end the game
-            if(currentRound >= maxRounds)
+            if(currentRound > maxRounds)
             {
                 endGame();
                 return;
             }
             
-            // Updates current round and text + resets fields values
-            currentRound++;
-
+            // Updates current text + resets fields values
             ScoreText = $"Score: {Score}/{currentRound-1}";
             RoundsText = $"Round: {currentRound}/{maxRounds}";
 
@@ -455,6 +492,25 @@ namespace Additionneur.ViewModels
             }
         }
 
+        private async void fadeBackground(int round)
+        {
+            await Task.Delay(50);
+
+            // Check if the fade is still on the correct round (avoid multiple stacking calls to this function if next button is spammed)
+            if (round != currentRound)
+                return;
+
+            // Ligthens the background
+            BackgroundGradientColor = BackgroundGradientColor * 1.2f;
+
+            // If fully white, set color to white. 
+            if (BackgroundGradientColor.ScR > 1f && BackgroundGradientColor.ScG > 1f && BackgroundGradientColor.ScB > 1f)
+                BackgroundGradientColor = Colors.White;
+            // If not, call the function again.
+            else
+                fadeBackground(round);
+        }
+
         private void makeSumRound()
         {
             int maxValue = (int)Math.Pow(10, 2 + Difficulty);
@@ -487,9 +543,6 @@ namespace Additionneur.ViewModels
 
             }
         }
-
-        
-
         private void makeDifferenceRound()
         {
             int maxValue = (int)Math.Pow(10, 2 + Difficulty) / 2;
@@ -522,7 +575,6 @@ namespace Additionneur.ViewModels
 
             }
         }
-
         private void makeMultiplicationRound()
         {
             // 10 for easy, 25 for normal, 100 for hard
@@ -556,7 +608,6 @@ namespace Additionneur.ViewModels
 
             }
         }
-
         private void makeDivisionRound()
         {
 
@@ -595,6 +646,14 @@ namespace Additionneur.ViewModels
         {
             // Clears the list of games
             StatsList.Clear();
+
+            // Colors corresponding to the background of eahc difficulty
+            Color[] backgrounds = new[]
+            {
+                new Color() { R= 240, G= 255, B= 240, A= 255}, // easy
+                new Color() { R= 250, G= 250, B= 240, A= 255}, // normal
+                new Color() { R= 255, G= 240, B= 240, A= 255}  // hard
+            };
 
             // Dict that'll store all the games rows
             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
@@ -635,9 +694,10 @@ namespace Additionneur.ViewModels
                 
                 // Create a grid that'll contain the informations about this game
                 Grid container = new();
+                container.Background = new SolidColorBrush(backgrounds[(int)row["difficulty"]]);
 
-                // Creates 5 columns of equal width in this grid
-                for(int i = 0; i<5; i++)
+                // Creates 6 columns of equal width in this grid
+                for(int i = 0; i<6; i++)
                 {
                     ColumnDefinition col = new();
                     col.Width = new GridLength(1, GridUnitType.Star);
@@ -646,29 +706,35 @@ namespace Additionneur.ViewModels
 
                 // Stretch the grid to take all the available width
                 container.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    
+
                 // Textbox corresponding to the difficulty, in first column
                 TextBox diff = new();
-                diff.Text = (new[] { "Easy", "Normal", "Hard" }) [(int) row["difficulty"]];
+                diff.Text = (new[] { "Easy", "Normal", "Hard" })[(int)row["difficulty"]];
                 diff.SetValue(Grid.ColumnProperty, 0);
+
+                // Textbox corresponding to the game type, in first column
+                TextBox type = new();
+                type.Text = (new[] { "Sums", "Differences", "Multiplications", "Divisions" })[(int)row["game_type"]];
+                type.SetValue(Grid.ColumnProperty, 1);
 
                 // Textbox corresponding to the max amount of rounds in this game, in second column
                 TextBox totRounds = new();
                 totRounds.Text = row["max_answers"].ToString();
-                totRounds.SetValue(Grid.ColumnProperty, 1);
+                totRounds.SetValue(Grid.ColumnProperty, 2);
 
                 // Textbox corresponding to the score, third column
                 TextBox score = new();
                 score.Text = row["correct_answers"].ToString();
-                score.SetValue(Grid.ColumnProperty, 2);
+                score.SetValue(Grid.ColumnProperty, 3);
 
                 // Textbox corresponding to average good answers in %, fourth column
                 TextBox avg = new();
                 avg.Text = (((int) row["correct_answers"] * 100) / ((int) row["max_answers"]) ).ToString() + "%";
-                avg.SetValue(Grid.ColumnProperty, 3);
+                avg.SetValue(Grid.ColumnProperty, 4);
 
                 // Adds the texteboxes to the grid
                 container.Children.Add(diff);
+                container.Children.Add(type);
                 container.Children.Add(totRounds);
                 container.Children.Add(score);
                 container.Children.Add(avg);
