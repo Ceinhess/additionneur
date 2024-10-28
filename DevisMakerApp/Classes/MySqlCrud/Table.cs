@@ -319,7 +319,7 @@ namespace Additionneur.Classes.MySqlCrud
             reqSet = reqSet.TrimEnd(',');
 
             // Builds the query
-            string req = $"UPDATE {Name} {reqSet} WHERE {columnToCheck} = {valueToCheck} LIMIT 1";
+            string req = $"UPDATE {Name} {reqSet} WHERE {columnToCheck} = @valueToCheck LIMIT 1";
 
             try
             {
@@ -333,6 +333,8 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    comm.Parameters.Add(new MySqlParameter("@valueToCheck", valueToCheck));
 
                     // Adds the attributes for each column name (@columnName => columnValue)
                     foreach (KeyValuePair<string, object> pair in newValues)
@@ -392,7 +394,7 @@ namespace Additionneur.Classes.MySqlCrud
             // Iterates through the parameters to add their condition to the query
             for (int i = 0; i < columnsToCheck.Length; i++)
             {
-                req += $"{columnsToCheck[i]} = {valuesToCheck[i]} AND ";
+                req += $"{columnsToCheck[i]} = @valuesToCheck{i} AND ";
             }
             // Removes the last 5 chars, corresponding to the excess " AND ", then add the limit
             req = req.Remove(req.Length - 5) + " LIMIT 1";
@@ -409,6 +411,8 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+                    for (int i = 0; i < columnsToCheck.Length; i++)
+                        comm.Parameters.Add(new MySqlParameter($"@valuesToCheck{i}", valuesToCheck[i]));
 
                     // Adds the attributes for each column name (@columnName => columnValue)
                     foreach (KeyValuePair<string, object> pair in newValues)
@@ -464,7 +468,7 @@ namespace Additionneur.Classes.MySqlCrud
             reqSet = reqSet.TrimEnd(',');
 
             // Builds the query
-            string req = $"UPDATE {Name} {reqSet} WHERE {columnToCheck} = {valueToCheck}";
+            string req = $"UPDATE {Name} {reqSet} WHERE {columnToCheck} = @valueToCheck";
 
             try
             {
@@ -478,6 +482,8 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    comm.Parameters.Add(new MySqlParameter("@valueToCheck", valueToCheck));
 
                     // Adds the attributes for each column name (@columnName => columnValue)
                     foreach (KeyValuePair<string, object> pair in newValues)
@@ -537,7 +543,7 @@ namespace Additionneur.Classes.MySqlCrud
             // Iterates through the parameters to add their condition to the query
             for (int i = 0; i < columnsToCheck.Length; i++)
             {
-                req += $"{columnsToCheck[i]} = {valuesToCheck[i]} AND ";
+                req += $"{columnsToCheck[i]} = @valuesToCheck{i} AND ";
             }
             // Removes the last 5 chars, corresponding to the excess " AND ", then add the limit
             req = req.Remove(req.Length - 5);
@@ -554,6 +560,9 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    for (int i = 0; i < columnsToCheck.Length; i++)
+                        comm.Parameters.Add(new MySqlParameter($"@valuesToCheck{i}", valuesToCheck[i]));
 
                     // Adds the attributes for each column name (@columnName => columnValue)
                     foreach (KeyValuePair<string, object> pair in newValues)
@@ -586,7 +595,7 @@ namespace Additionneur.Classes.MySqlCrud
         public void DeleteRow(string columnToCheck, object valueToCheck)
         {
             // Builds the query
-            string req = $"DELETE FROM {Name} WHERE {columnToCheck} = {valueToCheck} LIMIT 1";
+            string req = $"DELETE FROM {Name} WHERE {columnToCheck} = @valueToCheck LIMIT 1";
 
             try
             {
@@ -600,6 +609,8 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    comm.Parameters.Add(new MySqlParameter("@valueToCheck", valueToCheck));
 
                     // Executes the command
                     comm.ExecuteNonQuery();
@@ -628,7 +639,7 @@ namespace Additionneur.Classes.MySqlCrud
             // Iterates through the parameters to add their condition to the query
             for (int i = 0; i < columnsToCheck.Length; i++)
             {
-                req += $"{columnsToCheck[i]} = {valuesToCheck[i]} AND ";
+                req += $"{columnsToCheck[i]} = @valuesToCheck{i} AND ";
             }
             // Removes the last 5 chars, corresponding to the excess " AND ", then add the limit
             req = req.Remove(req.Length - 5) + " LIMIT 1";
@@ -645,6 +656,9 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    for (int i = 0; i < columnsToCheck.Length; i++)
+                        comm.Parameters.Add(new MySqlParameter($"@valuesToCheck{i}", valuesToCheck[i]));
 
                     // Executes the command
                     comm.ExecuteNonQuery();
@@ -709,7 +723,7 @@ namespace Additionneur.Classes.MySqlCrud
             // Iterates through the parameters to add their condition to the query
             for (int i = 0; i < columnsToCheck.Length; i++)
             {
-                req += $"{columnsToCheck[i]} = {valuesToCheck[i]} AND ";
+                req += $"{columnsToCheck[i]} = @valuesToCheck{i} AND ";
             }
             // Removes the last 5 chars, corresponding to the excess " AND "
             req = req.Remove(req.Length - 5);
@@ -726,6 +740,9 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    for (int i = 0; i < columnsToCheck.Length; i++)
+                        comm.Parameters.Add(new MySqlParameter($"@valuesToCheck{i}", valuesToCheck[i]));
 
                     // Executes the command
                     comm.ExecuteNonQuery();
@@ -831,7 +848,7 @@ namespace Additionneur.Classes.MySqlCrud
             // Iterates through the parameters to add their condition to the query
             for(int i = 0; i < columnsToCheck.Length; i++)
             {
-                req += $"{columnsToCheck[i]} = {valuesToCheck[i]} AND ";
+                req += $"{columnsToCheck[i]} = @valuesToCheck{i} AND ";
             }
             // Removes the last 5 chars, corresponding to the excess " AND "
             req = req.Remove(req.Length - 5);
@@ -854,6 +871,9 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    for (int i = 0; i < columnsToCheck.Length; i++)
+                        comm.Parameters.Add(new MySqlParameter($"@valuesToCheck{i}", valuesToCheck[i]));
 
                     // Creates the reader object that will read and store the data
                     MySqlDataReader reader = comm.ExecuteReader();
@@ -898,7 +918,7 @@ namespace Additionneur.Classes.MySqlCrud
         public List<Dictionary<string, object>> SelectRows(string columnToCheck, object valueToCheck)
         {
             // Builds the query
-            string req = $"SELECT * FROM {Name} WHERE {columnToCheck} = {valueToCheck}";
+            string req = $"SELECT * FROM {Name} WHERE {columnToCheck} = @valueToCheck";
 
             // Gets list of columns to use later in filling the returned dictionary
             List<string> columns = GetColumnsNames();
@@ -918,6 +938,8 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    comm.Parameters.Add(new MySqlParameter("@valueToCheck", valueToCheck));
 
                     // Creates the reader object that will read and store the data
                     MySqlDataReader reader = comm.ExecuteReader();
@@ -977,7 +999,7 @@ namespace Additionneur.Classes.MySqlCrud
             // Iterates through the parameters to add their conditions to the query
             for (int i = 0; i < columnsToCheck.Length; i++)
             {
-                req += $"{columnsToCheck[i]} = {valuesToCheck[i]} AND ";
+                req += $"{columnsToCheck[i]} = @valuesToCheck{i} AND ";
             }
             // Removes the last 5 chars, corresponding to the excess " AND "
             req = req.Remove(req.Length - 5);
@@ -994,6 +1016,9 @@ namespace Additionneur.Classes.MySqlCrud
                     comm.CommandText = req;
                     comm.CommandType = CommandType.Text;
                     comm.Connection = Connection;
+
+                    for (int i = 0; i < columnsToCheck.Length; i++)
+                        comm.Parameters.Add(new MySqlParameter($"@valuesToCheck{i}", valuesToCheck[i]));
 
                     // Creates the reader object that will read and store the data
                     MySqlDataReader reader = comm.ExecuteReader();

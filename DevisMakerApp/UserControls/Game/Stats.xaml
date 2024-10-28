@@ -30,7 +30,7 @@
                 <StackPanel.Background>
                     <SolidColorBrush Color="{DynamicResource BleuGris}" Opacity="1"/>
                 </StackPanel.Background>
-                <Button  Command="{Binding GoToGameMenu}" Content="Retour" Background="{DynamicResource ButtonBackground1}" BorderBrush="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,20,0,0" Padding="15,10,15,10"/>
+                <Button  Command="{Binding GoToGameMenu}" Content="Back" Background="{DynamicResource ButtonBackground1}" BorderBrush="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,20,0,0" Padding="15,10,15,10"/>
                 <TextBlock Text="Type" FontFamily="Cascadia Code" FontSize="16" Margin="15,20,0,0"/>
                 <ListBox SelectedIndex="{Binding StatsTypeIndex}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="15,0,15,0">
                     <TextBlock Text="Sums" FontFamily="Cascadia Code" FontSize="16"/>
